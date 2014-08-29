@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
-import db
+import gallerylog.db
 
 # TODO: we should customize help output better
 parser = argparse.ArgumentParser(description='queries the state of the gallery. It prints which employees and guests are in the gallery or its rooms, and allows for various time-based queries of the state of the gallery.')
