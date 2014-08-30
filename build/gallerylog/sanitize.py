@@ -1,4 +1,5 @@
-#!/usr/bin/python3.4
+# -*- coding: utf-8 -*-
+
 import re
 
 # incoming is the argument from parser like an employee name
@@ -34,22 +35,21 @@ def sanitizeAlphanumeric(incoming):
         return True #if it is a valid string, return True
 
 
-
-# alphalist='qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'    # string containing only ascii letters
-# numericlist='1234567890'                                            # string containing only numbers
-# alphanumericlist=alphalist+numericlist                              # string containing both
-# mixedbag="')(*  ᕘ ⾜<U+A57D> € ₣'ӓЀ"                                       # random unicode characters
-#
-# print('flag is: {0}, should be True'.format(sanitizeNumber(numericlist)))
-# print('flag is: {0}, should be True'.format(sanitizeAlpha(alphalist)))
-# print('flag is: {0}, should be True'.format(sanitizeAlphanumeric(alphanumericlist)))
-# print('flag is: {0}, should be True'.format(sanitizeAlphanumeric(alphalist)))
-# print('flag is: {0}, should be True'.format(sanitizeAlphanumeric(numericlist)))
-# print('flag is: {0}, should be False'.format(sanitizeNumber(alphalist)))
-# print('flag is: {0}, should be False'.format(sanitizeNumber(alphanumericlist)))
-# print('flag is: {0}, should be False'.format(sanitizeNumber(mixedbag)))
-# print('flag is: {0}, should be False'.format(sanitizeAlpha(alphanumericlist)))
-# print('flag is: {0}, should be False'.format(sanitizeAlpha(numericlist)))
-# print('flag is: {0}, should be False'.format(sanitizeAlpha(mixedbag)))
-# print('flag is: {0}, should be False'.format(sanitizeAlphanumeric(mixedbag)))
+if __name__=='__main__':
+    alphalist='qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'    # string containing only ascii letters
+    numericlist='1234567890'                                            # string containing only numbers
+    alphanumericlist=alphalist+numericlist                              # string containing both
+    mixedbag="')(*  ᕘ ⾜<U+A57D> € ₣'ӓЀ"                                       # random unicode characters
+    print('flag is: {0}, should be True'.format(sanitizeNumber(numericlist)))
+    print('flag is: {0}, should be True'.format(sanitizeAlpha(alphalist)))
+    print('flag is: {0}, should be True'.format(sanitizeAlphanumeric(alphanumericlist)))
+    print('flag is: {0}, should be True'.format(sanitizeAlphanumeric(alphalist)))
+    print('flag is: {0}, should be True'.format(sanitizeAlphanumeric(numericlist)))
+    print('flag is: {0}, should be False'.format(sanitizeNumber(alphalist)))
+    print('flag is: {0}, should be False'.format(sanitizeNumber(alphanumericlist)))
+    print('flag is: {0}, should be False'.format(sanitizeNumber(mixedbag)))
+    print('flag is: {0}, should be False'.format(sanitizeAlpha(alphanumericlist)))
+    print('flag is: {0}, should be False'.format(sanitizeAlpha(numericlist)))
+    print('flag is: {0}, should be False'.format(sanitizeAlpha(mixedbag)))
+    print('flag is: {0}, should be False'.format(sanitizeAlphanumeric(mixedbag)))
 
