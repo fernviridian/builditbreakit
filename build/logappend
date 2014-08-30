@@ -4,7 +4,7 @@
 # Aug 30, 2014
 
 import argparse
-#TODO import gallerylog.db as db
+import gallerylog.db as db
 import gallerylog.sanitize as sn
 import sys
 
@@ -41,17 +41,13 @@ parser.add_argument('-B', dest = 'batchfile', nargs='?', type=argparse.FileType(
 #parser.add_argument('-B', dest='batchfile', action='store', default=None, 
 #                   help="Specifies a batch file of commands. file contains one or more command lines, not including the logappend command itself (just its options), separated by \n (newlines). These commands should be processed by logappend individually, in order. This allows logappend to add data to the file without forking or re-invoking. Of course, option -B cannot itself appear in one of these command lines. Commands specified in a batch file include the log name. Here is an example (the last one).")
 
+#TODO need to handle random flags like -Z
+
 args = parser.parse_args()
 
 #check if arguments are valid
 
 # TODO: handle error cases like -E and -G or -A and -L (we want xor!)
-
-if args.employeename:
-    #sanitize
-    if(sn.sanitize_alpha(args.employeename) == False):
-        print ("invalid")
-        sys.exit(-1)
 
 def areArgumentsValid(args):
     returnValue = True
@@ -105,6 +101,40 @@ def areArgumentsValid(args):
 
     return returnValue
 
+
+def handler():
+
+    # now we can open and verify the encrypted database
+    sql = db.DB(args.log, args.token)
+    if not sql.successful():
+        print ("invalid database or token")
+        sys.exit(-1)
+
+    ### TODO: the main program logic goes here
+
+    if(args.arrival and args.departure):
+        #you cant have both
+        print ("invalid")
+        sys.exit(-1)
+
+    if(args.guest and args.employee):
+        #you cant have both
+        print ("invalid")
+        sys.exit(-1)
+
+    if(args.batchfile and not args.token and not args.timestamp and not (args.guest or args.employee) and not (args.arrival or args.departure) and not args.roomid):
+        #batchfile mode
+        print ("batchfile mode")
+
+    if(args.token and args.timestamp and (args.guest or args.employee) and (args.arrival or args.departure) and args.roomid):
+        #valid query
+        print ("query mode")
+
+
+    # always gracefully close the DB after it is open!
+    sql.closeDBFile()
+
+
 def main(args):
     #TODO check to see if we're in batch mode
     #if args.batchfile
@@ -112,23 +142,10 @@ def main(args):
     
     if (areArgumentsValid(args) == True):
         #now we know the arguments are valid, start passing them to db backend
-        print ("foo")
+        handler(args)
 
     else:
         print ("invalid")
         sys.exit(-1)
 
 main(args)
-
-print args
-
-# now we can open and verify the encrypted database
-sql = db.DB(args.log, args.token)
-if not sql.successful():
-    print ("invalid database or token")
-    sys.exit(-1)
-
-### TODO: the main program logic goes here
-
-# always gracefully close the DB after it is open!
-sql.closeDBFile()
