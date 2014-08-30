@@ -7,7 +7,7 @@ import re
 # ------------------------------
 # returns false if any portion of the incoming string is not 0-9
 
-def sanitize_number(incoming):
+def sanitizeNumber(incoming):
     if (re.compile("[^0-9]").search(incoming)):
         return False #return false if we find anything that isnt alphanumeric
     else:
@@ -17,7 +17,7 @@ def sanitize_number(incoming):
 # returns false if any portion of the incoming string is not
 # an ASCII letter
 
-def sanitize_alpha(incoming):
+def sanitizeAlpha(incoming):
     if (re.compile("[^a-zA-Z]").search(incoming)):
         return False #return false if we find anything that isnt alphanumeric
     else:
@@ -27,7 +27,7 @@ def sanitize_alpha(incoming):
 # returns false if any portion of the incoming string is not
 # either an ASCII letter or 0-9
 
-def sanitize_alphanumeric(incoming):
+def sanitizeAlphanumeric(incoming):
     if (re.compile("[^0-9a-zA-Z]").search(incoming)):
         return False #return false if we find anything that isnt alphanumeric
     else:

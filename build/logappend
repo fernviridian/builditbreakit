@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
-import gallerylog.db as db
+#TODO import gallerylog.db as db
 import gallerylog.sanitize as sn
 import sys
 
@@ -34,52 +34,68 @@ parser.add_argument('-L', dest='departure', action='store_const', default=False,
 parser.add_argument('-R', dest='roomid', action='store', default=None,
                    help="Specifies the room ID for an event. Room IDs are non-negative integer characters with no spaces. A gallery is composed of multiple rooms. A complete list of the rooms of the gallery is not available and rooms will only be described when an employee or guest enters or leaves one. A room cannot be left by an employee or guest unless that employee or guest has previously entered that room. An employee or guest may only occupy one room at a time. If a room ID is not specified, the event is for the entire art gallery.")
 
-parser.add_argument('-B', dest='batchfile', action='store', default=None,
-                   help="Specifies a batch file of commands. file contains one or more command lines, not including the logappend command itself (just its options), separated by \n (newlines). These commands should be processed by logappend individually, in order. This allows logappend to add data to the file without forking or re-invoking. Of course, option -B cannot itself appear in one of these command lines. Commands specified in a batch file include the log name. Here is an example (the last one).")
+parser.add_argument('-B', dest = 'batchfile', nargs='?', type=argparse.FileType('r'), default=sys.stdin)
+#parser.add_argument('-B', dest='batchfile', action='store', default=None, 
+#                   help="Specifies a batch file of commands. file contains one or more command lines, not including the logappend command itself (just its options), separated by \n (newlines). These commands should be processed by logappend individually, in order. This allows logappend to add data to the file without forking or re-invoking. Of course, option -B cannot itself appear in one of these command lines. Commands specified in a batch file include the log name. Here is an example (the last one).")
+
 
 args = parser.parse_args()
 
-#check if arguments are valid
-if args.employeename:
-    #sanitize
-    if(sn.sanitize_alpha(args.employeename) == False):
+
+def areArgumentsValid(args):
+    returnValue = True
+    #check if arguments are valid
+    if args.employeename:
+        #sanitize
+        if(sn.sanitizeAlpha(args.employeename) == False):
+            returnValue = False
+            return returnValue
+
+    if args.timestamp:
+        if(sn.sanitizeNumber(args.timestamp) == False):
+            returnValue = False
+            return returnValue
+
+    if args.token:
+        if(sn.sanitizeAlphanumeric(args.token) == False):
+            returnValue = False
+            return returnValue
+
+    if args.guestname:
+       if(sn.sanitizeAlpha(args.guestname) == False):
+            returnValue = False
+            return returnValue
+
+    if args.roomid:
+        if(sn.sanitizeNumber(args.roomid) == False):
+            returnValue = False
+            return returnValue
+
+#    if args.batchfile:
+#        if(sn.sanitizeAlphanumeric(args.batchfile) == False):
+#            returnValue = False
+#            return returnValue
+
+    if args.log:
+        if(sn.sanitizeAlphanumeric(args.log) == False):
+            returnValue = False
+            return returnValue
+
+    return returnValue
+
+def main(args):
+    #TODO check to see if we're in batch mode
+    #if args.batchfile
+    print args.batchfile
+    
+    if (areArgumentsValid(args) == True):
+        #now we know the arguments are valid, start passing them to db backend
+        print ("foo")
+
+    else:
         print ("invalid")
         sys.exit(-1)
 
-if args.timestamp:
-    if(sn.sanitize_number(args.timestamp) == False):
-        print ("invalid")
-        sys.exit(-1)
-
-if args.token:
-    if(sn.sanitize_alphanumeric(args.token) == False):
-        print ("invalid")
-        sys.exit(-1)
-
-if args.guestname:
-   if(sn.sanitize_alpha(args.guestname) == False):
-        print ("invalid")
-        sys.exit(-1)
-
-if args.roomid:
-    if(sn.sanitize_number(args.roomid) == False):
-        print ("invalid")
-        sys.exit(-1)
-
-if args.batchfile:
-    if(sn.sanitize_number(args.batchfile) == False):
-        print ("invalid")
-        sys.exit(-1)
-
-if args.log:
-    if(sn.sanitize_alphanumeric(args.log) == False):
-        print ("invalid")
-        sys.exit(-1)
-
-
-#if we got to this point, all the input is valid
-
-print args
-
+main(args)
 
 # TODO: handle error cases like -E and -G or -A and -L (we want xor!)
