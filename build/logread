@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 import argparse
-import gallerylog.db
+import gallerylog.db as db
+import gallerylog.sanitize as sn
 
 # TODO: we should customize help output better
 parser = argparse.ArgumentParser(description='queries the state of the gallery. It prints which employees and guests are in the gallery or its rooms, and allows for various time-based queries of the state of the gallery.')
@@ -13,10 +14,10 @@ parser.add_argument('-K', dest='token', action='store',
                    default=None, required=True,
                    help="Token used to authenticate the log. This token consists of an arbitrary sized string of alphanumeric characters and will be the same between executions of logappend and logread. If the log cannot be authenticated with the token (i.e., it is not the same token that was used to create the file), then \"security error\" should be printed to stderr and -1 should be returned.")
 
-parser.add_argument('-E', dest='employee-name', action='store', default=None,
+parser.add_argument('-E', dest='employeename', action='store', default=None,
                    help="Employee name. May be specified multiple times.")
 
-parser.add_argument('-G', dest='guest-name', action='store', default=None,
+parser.add_argument('-G', dest='guestname', action='store', default=None,
                    help="Guest name. May be specified multiple times.")
 
 parser.add_argument('-H', dest='html', action='store_const', default=False, const=True,
@@ -29,6 +30,36 @@ parser.add_argument('-R', dest='roomlist', action='store_const', default=False, 
                    help="Give a list of all rooms entered by an employee or guest. Output the list of rooms in chronological order. If this argument is specified, either -E or -G must be specified. The list is printed to stdout in one comma-separated list of room identifiers. If -H is specified, the format should instead by in HTML conforming to the following HTML specification.")
 
 args = parser.parse_args()
+
+#check if arguments are valid
+if args.employeename:
+    #sanitize
+    if(sn.sanitize_alpha(args.employeename) == False):
+        print ("invalid")
+        sys.exit(-1)
+
+if args.token:
+    if(sn.sanitize_alphanumeric(args.token) == False):
+        print ("invalid")
+        sys.exit(-1)
+
+if args.guestname:
+   if(sn.sanitize_alpha(args.guestname) == False):
+        print ("invalid")
+        sys.exit(-1)
+
+if args.log:
+    if(sn.sanitize_alphanumeric(args.log) == False):
+        print ("invalid")
+        sys.exit(-1)
+
+
+#if we got to this point, all the input is valid
+
+print args
+
+
+
 
 # TODO: add all the optional arguments (commented out until implemented?)
 
