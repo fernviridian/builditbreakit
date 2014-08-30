@@ -38,9 +38,17 @@ parser.add_argument('-B', dest = 'batchfile', nargs='?', type=argparse.FileType(
 #parser.add_argument('-B', dest='batchfile', action='store', default=None, 
 #                   help="Specifies a batch file of commands. file contains one or more command lines, not including the logappend command itself (just its options), separated by \n (newlines). These commands should be processed by logappend individually, in order. This allows logappend to add data to the file without forking or re-invoking. Of course, option -B cannot itself appear in one of these command lines. Commands specified in a batch file include the log name. Here is an example (the last one).")
 
-
 args = parser.parse_args()
 
+#check if arguments are valid
+
+# TODO: handle error cases like -E and -G or -A and -L (we want xor!)
+
+if args.employeename:
+    #sanitize
+    if(sn.sanitize_alpha(args.employeename) == False):
+        print ("invalid")
+        sys.exit(-1)
 
 def areArgumentsValid(args):
     returnValue = True
@@ -98,4 +106,15 @@ def main(args):
 
 main(args)
 
-# TODO: handle error cases like -E and -G or -A and -L (we want xor!)
+print args
+
+# now we can open and verify the encrypted database
+sql = db.DB(args.log, args.token)
+if not sql.successful():
+    print ("invalid database or token")
+    sys.exit(-1)
+
+### TODO: the main program logic goes here
+
+# always gracefully close the DB after it is open!
+sql.closeDBFile()

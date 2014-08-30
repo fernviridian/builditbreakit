@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import sys
+
 import argparse
 import gallerylog.db as db
 import gallerylog.sanitize as sn
@@ -32,6 +34,11 @@ parser.add_argument('-R', dest='roomlist', action='store_const', default=False, 
 args = parser.parse_args()
 
 #check if arguments are valid
+
+# TODO: add all the optional arguments (commented out until implemented?)
+
+# TODO: handle error cases, -R and -S, -R without -E or -G (or both!) ... see the spec!
+
 if args.employeename:
     #sanitize
     if(sn.sanitize_alpha(args.employeename) == False):
@@ -58,9 +65,13 @@ if args.log:
 
 print args
 
+# now we can open and verify the encrypted database
+sql = db.DB(args.log, args.token)
+if not sql.successful():
+    print ("invalid database or token")
+    sys.exit(-1)
 
+### TODO: the main program logic goes here
 
-
-# TODO: add all the optional arguments (commented out until implemented?)
-
-# TODO: handle error cases, -R and -S, -R without -E or -G (or both!) ... see the spec!
+# always gracefully close the DB after it is open!
+sql.closeDBFile()
