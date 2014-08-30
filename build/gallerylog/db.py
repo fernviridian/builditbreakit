@@ -106,9 +106,10 @@ class DB:
 
     # for additional functionality
 
-    # TODO: implement
-    def getLogByPerson(self):
-        return False
+    def getLogByPerson(self, name, personType):
+        self.cursor.execute("SELECT time, direction, room FROM log WHERE personType LIKE ? AND name LIKE ? ORDER BY time ASC;", (personType, name))
+        val = self.cursor.fetchall()
+        return val
 
 if __name__ == "__main__":
    import os
@@ -146,8 +147,12 @@ if __name__ == "__main__":
        print "Bob log: " + str(sql.getRoomsForPerson("Bob", "E"))
        print "Joe log: " + str(sql.getRoomsForPerson("Joe", "G"))
        print "Ryan log: " + str(sql.getRoomsForPerson("Ryan", "E"))
+       print
+       print "Joe full log:"
+       print str(sql.getLogByPerson("Joe", "G"))
        print "================================"
        print
+
    q()
    p()
 
@@ -178,7 +183,6 @@ if __name__ == "__main__":
    sql.addLogEntry("Ryan", "E", "A", 164, 101)
    sql.addLogEntry("Ryan", "E", "D", 165, 101)
    sql.addLogEntry("Joe", "G", "A", 166, 101)
-   sql.addLogEntry("Joe", "G", "D", 167, 101)
    p()
    q()
    s()
