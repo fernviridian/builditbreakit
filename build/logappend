@@ -40,6 +40,9 @@ parser.add_argument('-B', dest='batchfile', action='store', default=None,
 args = parser.parse_args()
 
 #check if arguments are valid
+
+# TODO: handle error cases like -E and -G or -A and -L (we want xor!)
+
 if args.employeename:
     #sanitize
     if(sn.sanitize_alpha(args.employeename) == False):
@@ -81,5 +84,13 @@ if args.log:
 
 print args
 
+# now we can open and verify the encrypted database
+sql = db.DB(args.log, args.token)
+if not sql.successful():
+    print ("invalid database or token")
+    sys.exit(-1)
 
-# TODO: handle error cases like -E and -G or -A and -L (we want xor!)
+### TODO: the main program logic goes here
+
+# always gracefully close the DB after it is open!
+sql.closeDBFile()

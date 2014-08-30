@@ -7,7 +7,7 @@ from pysqlcipher import dbapi2
 # db.closeDBFile()
 
 class DB:
-    def __init__(filename, key):
+    def __init__(self, filename, key):
         self.filename = filename
         self.key = key
         self.openDBFile()
@@ -22,27 +22,38 @@ class DB:
         # TODO: have a table for verifying connectivity
         return True
 
-    def closeDBFile():
+    def closeDBFile(self):
         self.connection.commit()
         self.connection.close()
 
+    def getCurrentRoomForPerson(self, name, personType):
+        return None # or an integer!
+
+    def isPersonInGallery(self, name, personType):
+        return False # or True
+
     # for logread -R
 
-    def getRoomsForPerson():
-        return False
+    def getRoomsForPerson(self, name, personType):
+        return () # or a list of Room numbers
 
     # for logappend
 
-    def addLogEntry():
-        return False
+    def addLogEntry(self, name, direction, personType, time):
+        return None
 
     # for logread -S
 
-    def getPeopleByRoom():
-        return False
+    def getPeopleByRoom(self):
+        return dict() # mapping room numbers to list of people
 
-    def getPeopleByType():
-        return False
+    def getPeopleByType(self, personType):
+        return () # list of people of that type in the gallery
+
+    # for logread input sanitization
+
+    def isValidRoom():
+        return False # or True
 
     # for additional functionality
 
