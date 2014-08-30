@@ -19,7 +19,9 @@ class DB:
         self.cursor = self.connection.cursor()
         self.cursor.execute("PRAGMA KEY = '" + self.key + "';")
         if not fileExists:
-            self.cursor.execute("CREATE TABLE testvalid(string nothing);")
+            self.cursor.execute("CREATE TABLE testvalid(nothing);")
+            self.cursor.execute("CREATE TABLE log(name NOT NULL, personType NOT NULL, direction NOT NULL, time INTEGER NOT NULL, room integer);")
+            self.cursor.execute("CREATE TABLE status(name NOT NULL, personType NOT NULL, isHere NOT NULL DEFAULT 'f', currentRoom integer);")
 
     def successful(self):
         try:
@@ -45,7 +47,7 @@ class DB:
 
     # for logappend
 
-    def addLogEntry(self, name, direction, personType, time):
+    def addLogEntry(self, name, direction, personType, time, room=None):
         return None
 
     # for logappend input verifications
