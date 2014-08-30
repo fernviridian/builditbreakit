@@ -1,5 +1,6 @@
 import gallerylog.crypto
 from pysqlcipher import dbapi2
+import os.path
 
 # db = DB("filename.db", "secretKey")
 # if not db.successful():
@@ -13,14 +14,19 @@ class DB:
         self.openDBFile()
 
     def openDBFile(self):
-        # TODO: check if file exists, create tables if not
+        fileExists = os.path.isfile(self.filename)
         self.connection = dbapi2.connect(self.filename)
         self.cursor = self.connection.cursor()
         self.cursor.execute("PRAGMA KEY = '" + self.key + "';")
+        if not fileExists:
+            self.cursor.execute("CREATE TABLE testvalid(string nothing);")
 
     def successful(self):
-        # TODO: have a table for verifying connectivity
-        return True
+        try:
+            self.cursor.execute("SELECT * FROM testvalid;")
+            return True
+        except:
+            return False
 
     def closeDBFile(self):
         self.connection.commit()
