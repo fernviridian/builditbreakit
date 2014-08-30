@@ -9,12 +9,12 @@ import unicodedata          # for ord
 # returns false if any portion of the incoming string is not 0-9
 
 def sanitize_number(incoming):
-    lower = (int(ord('0')))                         # 0  30
-    upper = (int(ord('9')))                         # 9  39
+    lower = ord('0')                         # 0  30
+    upper = ord('9')                         # 9  39
     flag = True                                     # valid incoming
 #    count = 0;                          # testing
     for symbolorig in incoming:
-        symbol = (int(ord(symbolorig)))         # change the symbol to int
+        symbol = ord(symbolorig)         # change the symbol to int
         if symbol < lower or symbol > upper:    # either is out of range
             flag = False
 #            count += 1                  # testing
@@ -28,13 +28,13 @@ def sanitize_number(incoming):
 # an ASCII letter
 
 def sanitize_alpha(incoming):
-    lower = (int(ord('A')))                     # A = 0x41
-    upper = (int(ord('Z')))                     # Z = 0x5A
+    lower = ord('A')                     # A = 0x41
+    upper = ord('Z')                     # Z = 0x5A
     incoming = incoming.upper()                 # make caps
     flag = True                                 # valid incoming
 #    count = 0;                          # testing
     for symbolorig in incoming:
-        symbol = (int(ord(symbolorig)))         # change the symbol to int
+        symbol = ord(symbolorig)         # change the symbol to int
         if symbol < lower or symbol > upper:    # either is out of range
             flag = False
 #            count += 1                  # testing
@@ -48,15 +48,15 @@ def sanitize_alpha(incoming):
 # either an ASCII letter or 0-9
 
 def sanitize_alphanumeric(incoming):
-    lower = (int(ord('0')))                     # 0  30
-    upper = (int(ord('9')))                     # 9  39
-    lowerA = (int(ord('A')))                    # A = 0x41
-    upperZ = (int(ord('Z')))                    # Z = 0x5A
+    lower = ord('0')                     # 0  30
+    upper = ord('9')                     # 9  39
+    lowerA = ord('A')                    # A = 0x41
+    upperZ = ord('Z')                    # Z = 0x5A
     incoming = incoming.upper()                 # make caps
     flag = True                                 # valid incoming
 #    count = 0;                          # testing
     for symbolorig in incoming:
-        symbol = (int(ord(symbolorig)))               # change the symbol to int
+        symbol = ord(symbolorig)               # change the symbol to int
         if not ((symbol >= lowerA and symbol <= upperZ) or (symbol >= lower and symbol <= upper)):    # either is out of range
             flag = False
 #            count += 1                  # testing
