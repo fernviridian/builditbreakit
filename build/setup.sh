@@ -1,4 +1,4 @@
-sudo apt-get install python-virtualenv python-dev
+sudo apt-get install python-virtualenv python-dev libssl-dev
 virtualenv env
 . env/bin/activate
 pip install pysqlcipher
