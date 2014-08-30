@@ -50,9 +50,11 @@ class DB:
 
     # for logread -R
 
-    # TODO: implement
     def getRoomsForPerson(self, name, personType):
-        return () # or a list of Room numbers
+        self.cursor.execute("SELECT room FROM log WHERE room IS NOT NULL AND direction LIKE 'A' AND personType LIKE ? AND name LIKE ? ORDER BY time ASC;", (personType, name))
+        val = self.cursor.fetchall()
+        val = map(lambda x: x[0], val)
+        return val
 
     # for logappend
 
@@ -65,7 +67,7 @@ class DB:
             self.cursor.execute("INSERT INTO status(name, personType, currentRoom, isHere) VALUES (?, ?, ?, 't');",
                                 (name, personType, room))
         else:
-            if direction == "a":
+            if direction == "A":
                 if room == None:
                     self.cursor.execute("UPDATE status SET isHere = 't' WHERE name LIKE ? AND personType LIKE ?;",
                                         (name, personType))
@@ -83,7 +85,6 @@ class DB:
 
     # for logappend input verifications
 
-    # TODO: test
     def lastLoggedTime(self):
         self.cursor.execute("SELECT MAX(time) FROM log;")
         v = self.cursor.fetchone()[0]
@@ -97,9 +98,11 @@ class DB:
     def getPeopleByRoom(self):
         return dict() # mapping room numbers to list of people
 
-    # TODO: implement (sort)
-    def getPeopleByType(self, personType):
-        return () # list of people of that type in the gallery
+    def getPeopleHereByType(self, personType):
+        self.cursor.execute("SELECT name FROM status WHERE personType LIKE ? AND isHere = 't' ORDER BY name ASC;", (personType))
+        val = self.cursor.fetchall()
+        val = map(lambda x: x[0], val)
+        return val
 
     # for additional functionality
 
@@ -131,23 +134,54 @@ if __name__ == "__main__":
        print "================================"
        print
 
+   def q():
+       print "================================"
+       print "Employees: " + str(sql.getPeopleHereByType("E"))
+       print "Guests: " + str(sql.getPeopleHereByType("G"))
+       print "================================"
+       print
+
+   def s():
+       print "================================"
+       print "Bob log: " + str(sql.getRoomsForPerson("Bob", "E"))
+       print "Joe log: " + str(sql.getRoomsForPerson("Joe", "G"))
+       print "Ryan log: " + str(sql.getRoomsForPerson("Ryan", "E"))
+       print "================================"
+       print
+   q()
    p()
 
    print "Into the gallery"
-   sql.addLogEntry("Ryan", "E", "a", 52)
+   sql.addLogEntry("Ryan", "E", "A", 52)
    p()
 
    print "Into room 101"
-   sql.addLogEntry("Ryan", "E", "a", 55, 101)
+   sql.addLogEntry("Ryan", "E", "A", 55, 101)
    p()
 
+   print "Bob and Joe appear"
+   sql.addLogEntry("Bob", "E", "A", 70)
+   sql.addLogEntry("Joe", "G", "A", 71)
+   p()
+   q()
+
    print "Out of room 101"
-   sql.addLogEntry("Ryan", "E", "d", 95, 101)
+   sql.addLogEntry("Ryan", "E", "D", 95, 101)
    p()
 
    print "Out of this place"
-   sql.addLogEntry("Ryan", "E", "d", 152)
+   sql.addLogEntry("Ryan", "E", "D", 152)
+   sql.addLogEntry("Ryan", "E", "A", 160, 123)
+   sql.addLogEntry("Ryan", "E", "D", 161, 123)
+   sql.addLogEntry("Ryan", "E", "A", 162, 123)
+   sql.addLogEntry("Ryan", "E", "D", 163, 123)
+   sql.addLogEntry("Ryan", "E", "A", 164, 101)
+   sql.addLogEntry("Ryan", "E", "D", 165, 101)
+   sql.addLogEntry("Joe", "G", "A", 166, 101)
+   sql.addLogEntry("Joe", "G", "D", 167, 101)
    p()
+   q()
+   s()
 
    # always gracefully close the DB after it is open!
    sql.closeDBFile()
