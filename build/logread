@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+# logread
+# rainy_day_hackers
+# Aug 30, 2014
 
 import sys
 
@@ -6,7 +9,7 @@ import argparse
 import gallerylog.db as db
 import gallerylog.sanitize as sn
 
-# TODO: we should customize help output better
+# setting up parser ----------------
 parser = argparse.ArgumentParser(description='queries the state of the gallery. It prints which employees and guests are in the gallery or its rooms, and allows for various time-based queries of the state of the gallery.')
 
 parser.add_argument('log', metavar='log',
@@ -33,37 +36,50 @@ parser.add_argument('-R', dest='roomlist', action='store_const', default=False, 
 
 args = parser.parse_args()
 
-#check if arguments are valid
+# check if arguments are valid
 
 # TODO: add all the optional arguments (commented out until implemented?)
 
 # TODO: handle error cases, -R and -S, -R without -E or -G (or both!) ... see the spec!
 
+
+def invalid()
+    print("invalid")
+    sys.exit(-1)
+
+# first sanitize text
 if args.employeename:
     #sanitize
     if(sn.sanitize_alpha(args.employeename) == False):
-        print ("invalid")
-        sys.exit(-1)
+        invalid()
 
 if args.token:
     if(sn.sanitize_alphanumeric(args.token) == False):
-        print ("invalid")
-        sys.exit(-1)
+        invalid()
 
 if args.guestname:
    if(sn.sanitize_alpha(args.guestname) == False):
-        print ("invalid")
-        sys.exit(-1)
+        invalid()
 
 if args.log:
     if(sn.sanitize_alphanumeric(args.log) == False):
-        print ("invalid")
-        sys.exit(-1)
+        invalid()
 
+# additional flag requirements
 
-#if we got to this point, all the input is valid
+if (args.state and args.roomlist)
+    # can't have both
+    invalid()
 
-print args
+if (args.state and (args.employeename or args.guestname))
+    # names not valid for state
+    invalid()
+
+if (args.roomlist and not (args.guestname or args.employeename))
+    # roomlist requires name(s)
+    invalid()
+
+# print args
 
 # now we can open and verify the encrypted database
 sql = db.DB(args.log, args.token)

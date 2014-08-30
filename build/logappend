@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+# logappend
+# rainy_day_hackers
+# Aug 30, 2014
 
 import argparse
 #TODO import gallerylog.db as db
@@ -78,6 +81,17 @@ def areArgumentsValid(args):
         if(sn.sanitizeNumber(args.roomid) == False):
             returnValue = False
             return returnValue
+
+# additional flag requirements
+    if (args.guestname and args.employeename)
+        # can't have both
+        returnValue = False
+        return returnValue
+
+    if (args.departure and args.arrival)
+        # can't have both
+        returnValue = False
+        return returnValue
 
 #    if args.batchfile:
 #        if(sn.sanitizeAlphanumeric(args.batchfile) == False):
