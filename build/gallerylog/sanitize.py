@@ -9,8 +9,8 @@ import unicodedata          # for ord
 # returns false if any portion of the incoming string is not 0-9
 
 def sanitize_number(incoming):
-    lower = 0x30                                # 0
-    upper = 0x39                                # 9
+    lower = hex(ord('0'))                       # 0 hex 30
+    upper = hex(ord('9'))                       # 9 hex 39
     flag = True                                 # valid incoming
     for symbol in incoming:
         symbol = hex(ord(symbol))               # change the symbol to hex
@@ -23,8 +23,8 @@ def sanitize_number(incoming):
 # an ASCII letter
 
 def sanitize_alpha(incoming):
-    lower = 0x41                                # A
-    upper = 0x5A                                # Z
+    lower = hex(ord('A'))                       # A = 0x41
+    upper = hex(ord('Z'))                       # Z = 0x5A
     incoming = incoming.upper()                 # make caps
     flag = True                                 # valid incoming
     for symbol in incoming:
@@ -38,15 +38,15 @@ def sanitize_alpha(incoming):
 # either an ASCII letter or 0-9
 
 def sanitize_alphanumeric(incoming):
-    lower = 0x30                                # 0
-    upper = 0x39                                # 9
-    lowerA = 0x41                               # A
-    upperA = 0x5A                               # Z
+    lower = hex(ord('0'))                       # 0 hex 30
+    upper = hex(ord('9'))                       # 9 hex 39
+    lowerA = hex(ord('A'))                      # A = 0x41
+    upperZ = hex(ord('Z'))                      # Z = 0x5A
     incoming = incoming.upper()                 # make caps
     flag = True                                 # valid incoming
     for symbol in incoming:
         symbol = hex(ord(symbol))               # change the symbol to hex
-        if not ((symbol >= lowerA and symbol <= upperB) or (symbol >= lower and symbol <= upper)):    # either is out of range
+        if not ((symbol >= lowerA and symbol <= upperZ) or (symbol >= lower and symbol <= upper)):    # either is out of range
             flag = False
     return flag
 
