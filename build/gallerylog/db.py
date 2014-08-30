@@ -48,6 +48,11 @@ class DB:
     def addLogEntry(self, name, direction, personType, time):
         return None
 
+    # for logappend input verifications
+
+    def lastLoggedTime(self):
+        return -1 # or the most recent time
+
     # for logread -S
 
     def getPeopleByRoom(self):
