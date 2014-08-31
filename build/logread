@@ -78,6 +78,19 @@ def SHtmlEnd():
     print("</body>")
     print("</html>")
 
+# [-H] -R html header stuff
+def RHtmlStart():
+    print("<html>")
+    print("<body>")
+    print("<table>")
+    print("<tr>")
+    print("  <th>Rooms</th>")
+    print("</tr>")
+
+def RHtmlEnd():
+    print("</table>")
+    print("</body>")
+    print("</html>")
 # -----------------------------------------------
 # Begin main
 # -----------------------------------------------
@@ -178,6 +191,27 @@ if args.state:
         print(string.join(listGuests,','))
         for room,personList in sorted(roomDict.items()):
             print("{0}: {1}".format(room,string.join(personList,',')))
+
+
+if args.roomlist:
+    roomList=[]
+    if args.guestname:
+        roomList=sql.getRoomsForPerson(args.guestname,'G')
+    else:
+        roomList=sql.getRoomsForPerson(args.employeename,'E')
+    roomList=map(lambda x: str(x),roomList)    # returned as list of int, change to string
+    # outputformat
+    if args.html:
+        RHtmlStart()
+        for room in roomList:
+            print("<tr>")
+            print("  <td>{0}</td>".format(room))
+            print("</tr>")
+        RHtmlEnd()
+    else:
+        print(string.join(roomList,','))
+
+
 
 
 # always gracefully close the DB after it is open!
