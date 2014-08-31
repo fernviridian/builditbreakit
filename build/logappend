@@ -89,62 +89,41 @@ def areArgumentsValid(args):
         # can't have both
         returnValue = False
         return returnValue
-
-#TODO
-#    if args.batchfile:
-#        if(sn.sanitizeAlphanumeric(args.batchfile) == False):
-#            returnValue = False
-#            return returnValue
-
-    if not len(args.log) == 1:
-        # only one log
-        returnValue = False
-        return returnValue
-    else:
-        args.log = args.log[0]
+    if(not args.batchfile):
+        if (not len(args.log) == 1):
+            # only one log
+            returnValue = False
+            return returnValue
+        else:
+            args.log = args.log[0]
 
     if args.log:
         if(sn.sanitizeAlphanumeric(args.log) == False):
             returnValue = False
             return returnValue
 
-    if not args.log:
-        returnValue = False
-        return returnValue
-
     #required input from user
-
-    #TODO batch file processing here
-    #if(not args.batchfile):
-     #   returnValue = False
-      #  return returnValue
-
-    #process rest of user input here
-    
-    if(not args.token or not (args.guestname or args.employeename) or not (args.departure or args.arrival) or not args.timestamp):
-        #we need more things to run properly
-        returnValue = False
-        return returnValue
-
     return returnValue
 
 def fileHandler(filename):
-    if(os.path.isFile(filename)):
+    if(os.path.isfile(filename)):
         #we have a file on disk to read
         batchFileLine = ""
-        with open(filename, "r") as batchFile:
-            for line in batchFile:
-                print line
-                #take newline out of line, then split the lin
-                batchFileLine = line.rstrip('\n')
-                batchFileLine = batchFileLine.split(" ") #split on spaces from argument list
-                batchFileArgs = parser.parse_args(batchFileLine)
-                print batchFileArgs
-                if((areArgumentsValid(batchFileArgs) == True) and not batchFileArgs.batchfile):
-                    #arguments are valid
-                    handler(args) #run the handler
-                else:
-                    print("invalid")
+        batchFile = open(filename, "r")
+        for line in batchFile:
+        #with open(filename, "r") as batchFile:
+         #   for line in batchFile:
+            print line
+            #take newline out of line, then split the lin
+            batchFileLine = line.rstrip('\n')
+            batchFileLine = batchFileLine.split(" ") #split on spaces from argument list
+            batchFileArgs = parser.parse_args(batchFileLine)
+            print batchFileArgs
+            if((areArgumentsValid(batchFileArgs) == True) and not batchFileArgs.batchfile):
+                #arguments are valid
+                handler(batchFileArgs) #run the handler
+            else:
+                print("invalid")
 
     else:
         print("invalid")
@@ -152,27 +131,26 @@ def fileHandler(filename):
 
 
 def handler(args):
+    print("handler")
     # now we can open and verify the encrypted database
     #if not args.log or not args.token:
     #    print ("invalid")
     #    sys.exit(-1)
-
-    #else:
-    sql = db.DB(args.log, args.token)
-    if not sql.successful():
-        print ("invalid database or token")
-        sys.exit(-1)
-
     ### the main program logic goes here
 
 
     if(args.batchfile and not (args.token or args.timestamp or args.guestname or args.employeename or args.arrival or args.departure or args.roomid or args.log)):
         #batchfile mode
         print ("batchfile mode")
-        fileHandler(args) #call the file handler 
+        fileHandler(args.batchfile) #call the file handler 
 
 
     if(args.token and args.timestamp and (args.guestname or args.employeename) and (args.arrival or args.departure) and args.log):
+        sql = db.DB(args.log, args.token)
+        if not sql.successful():
+            print ("invalid database or token")
+            sys.exit(-1)
+
         #valid query
         #G - guest char
         #E - employee char
@@ -210,7 +188,10 @@ def handler(args):
         # [ ER$ | LG ]
 
 ##########CASEs############################################
-        args.timestamp = int(args.timestamp)
+        if(args.timestamp):
+            args.timestamp = int(args.timestamp)
+        if(args.roomid):
+            args.roomid = int(args.roomid)
 
         if(sql.isPersonInGallery(name, personType)): 
             #the person is already in the gallery
@@ -224,7 +205,7 @@ def handler(args):
                     print("invalid")
                     sys.exit(-1)
 
-            elif((sql.getCurrentRoomForPerson(name, personType) == int(args.roomid)) and direction == "D" and (sql.lastLoggedTime() < args.timestamp)):
+            elif((sql.getCurrentRoomForPerson(name, personType) == args.roomid) and direction == "D" and (sql.lastLoggedTime() < args.timestamp)):
                 #need to leave room first
                 sql.addLogEntry(name, personType, direction, args.timestamp, args.roomid)
             else:
@@ -249,9 +230,13 @@ def handler(args):
                 #invalid, they cant leave if they arent already there
                 print("invalid")
                 sys.exit(-1)
+    else:
+        print("invalid")
+        sys.exit(-1)
         
     # always gracefully close the DB after it is open!
-    sql.closeDBFile()
+    if(sql):
+        sql.closeDBFile()
 
 def main(args):
     if (areArgumentsValid(args) == True):
