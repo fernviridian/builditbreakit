@@ -38,10 +38,11 @@ parser.add_argument('-S', dest='state', action='store_const', default=False, con
 parser.add_argument('-R', dest='roomlist', action='store_const', default=False, const=True,
                    help="Give a list of all rooms entered by an employee or guest. Output the list of rooms in chronological order. If this argument is specified, either -E or -G must be specified. The list is printed to stdout in one comma-separated list of room identifiers. If -H is specified, the format should instead by in HTML conforming to the following HTML specification.")
 
+parser.add_argument('-T', dest='totaltime', action'=store_const', default=False, const=True,
+                   help="Give a total amount of time for a guest/user in the gallery.")
+
 args, unknown = parser.parse_known_args()
 
-
-# TODO: add all the optional arguments (commented out until implemented?)
 
 # -----------------------------------------------------
 # Functions
@@ -96,13 +97,23 @@ def RHtmlEnd():
 # -----------------------------------------------
 
 # validate args
+
+
+# unkown args (ie: -z) emit fail
 if(len(unknown) > 0):
     invalid()
 
-# right amount of args and in right combination?
-if (args.state and args.roomlist) or not (args.state or args.roomlist):
-    # can't have both but must have one
+# right amount of args?
+if (args.state and args.roomlist) or
+        (args.state and args.totaltime) or
+        (args.roomlist and args.totaltime) or not
+        (args.state or args.roomlist or args.totaltime):
+    # can't have both/all but must have one
     invalid()
+
+if (args.totaltime and args.html):
+    # html not valis with total time per spec
+    incalid()
 
 # may need to adjust this if we hit the optional #2
 if (args.guestname and args.employeename):
@@ -113,8 +124,8 @@ if (args.state and (args.employeename or args.guestname)):
     # names not valid for state
     invalid()
 
-if (args.roomlist and not (args.guestname or args.employeename)):
-    # roomlist requires name(s)
+if ((args.roomlist or args.totaltime)) and not (args.guestname or args.employeename)):
+    # roomlist/total time requires name
     invalid()
 
 
@@ -168,15 +179,16 @@ if not sql.successful():
     sys.stderr.write("integrity violation\n")
     sys.exit(-1)
 
-### TODO: the main program logic goes here
+### The main program logic goes here
 
-# name, type, room?
+# -S flag
 if args.state:
-    # get the data
+    # get the data from the db
     listEmployees=sql.getPeopleHereByType('E')
     listGuests=sql.getPeopleHereByType('G')
     roomDict=sql.getPeopleByRoom()
 
+    # display according to html flag or regular display
     if args.html:
         SHtmlStart()
         print("<td>{0}</td>".format(string.join(listEmployees,',')))
@@ -195,15 +207,16 @@ if args.state:
         for room,personList in sorted(roomDict.items()):
             print("{0}: {1}".format(room,string.join(personList,',')))
 
-
+# -R flag
 if args.roomlist:
+    # get the data from the db
     roomList=[]
     if args.guestname:
         roomList=sql.getRoomsForPerson(args.guestname,'G')
     else:
         roomList=sql.getRoomsForPerson(args.employeename,'E')
     roomList=map(lambda x: str(x),roomList)    # returned as list of int, change to string
-    # outputformat
+    # outputformat for -H or regular
     if args.html:
         RHtmlStart()
         for room in roomList:
@@ -214,6 +227,16 @@ if args.roomlist:
     else:
         print(string.join(roomList,','))
 
+# -T flag
+if args.totaltime:
+    time=0
+    # get the data from the db
+    if args.guestname:
+        time=sql.getTotalTime(args.guestname,'G')
+    else:
+        time=sql.getTotalTime(args.employeename,'E')
+    if time:
+        print(time)
 
 
 
