@@ -7,6 +7,7 @@ import argparse
 import gallerylog.db as db
 import gallerylog.sanitize as sn
 import sys
+import os.path
 
 # TODO: we should customize help output better
 parser = argparse.ArgumentParser(description='Appends data to the log at the specified timestamp using the authentication token. If the log does not exist, logappend will create it. Otherwise it will append to the existing log. If the data to be appended to the log is not consistent with the current state of the log, logappend should print "invalid" and leave the state of the log unchanged.')
@@ -127,6 +128,28 @@ def areArgumentsValid(args):
 
     return returnValue
 
+def fileHandler(filename):
+    if(os.path.isFile(filename)):
+        #we have a file on disk to read
+        batchFileLine = ""
+        with open(filename, "r") as batchFile:
+            for line in batchFile:
+                print line
+                #take newline out of line, then split the lin
+                batchFileLine = line.rstrip('\n')
+                batchFileLine = batchFileLine.split(" ") #split on spaces from argument list
+                batchFileArgs = parser.parse_args(batchFileLine)
+                print batchFileArgs
+                if((areArgumentsValid(batchFileArgs) == True) and not batchFileArgs.batchfile):
+                    #arguments are valid
+                    handler(args) #run the handler
+                else:
+                    print("invalid")
+
+    else:
+        print("invalid")
+        sys.exit(-1)
+
 
 def handler(args):
     # now we can open and verify the encrypted database
@@ -146,9 +169,10 @@ def handler(args):
     if(args.batchfile and not (args.token or args.timestamp or args.guestname or args.employeename or args.arrival or args.departure or args.roomid or args.log)):
         #batchfile mode
         print ("batchfile mode")
+        fileHandler(args) #call the file handler 
+
 
     if(args.token and args.timestamp and (args.guestname or args.employeename) and (args.arrival or args.departure) and args.log):
-#TODO make sure roomid isnt required
         #valid query
         #G - guest char
         #E - employee char
@@ -230,12 +254,10 @@ def handler(args):
     sql.closeDBFile()
 
 def main(args):
-    #TODO check to see if we're in batch mode
-    #if args.batchfile
-    
     if (areArgumentsValid(args) == True):
+        #either in batch file mode or normal mode
         #now we know the arguments are valid, start passing them to db backend
-        handler(args)
+        handler(args) #cmd line handler
 
     else:
         print ("invalid")
