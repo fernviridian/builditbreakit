@@ -67,7 +67,6 @@ def areArgumentsValid(args):
         if(sn.sanitizeAlphanumeric(args.token) == False):
             returnValue = False
             return returnValue
-#TODO quit()
 
     if args.guestname:
        if(sn.sanitizeAlpha(args.guestname) == False):
@@ -90,6 +89,7 @@ def areArgumentsValid(args):
         returnValue = False
         return returnValue
 
+#TODO
 #    if args.batchfile:
 #        if(sn.sanitizeAlphanumeric(args.batchfile) == False):
 #            returnValue = False
@@ -100,31 +100,41 @@ def areArgumentsValid(args):
             returnValue = False
             return returnValue
 
+    if not args.log:
+        returnValue = False
+        return returnValue
+
+    #required input from user
+
+    #TODO batch file processing here
+    #if(not args.batchfile):
+     #   returnValue = False
+      #  return returnValue
+
+    #process rest of user input here
+    
+    if(not args.token or not (args.guestname or args.employeename) or not (args.departure or args.arrival) or not args.timestamp):
+        #we need more things to run properly
+        returnValue = False
+        return returnValue
+
     return returnValue
 
 
 def handler(args):
     # now we can open and verify the encrypted database
-    if not args.log or not args.token:
-        print ("invalid")
+    #if not args.log or not args.token:
+    #    print ("invalid")
+    #    sys.exit(-1)
+
+    #else:
+    sql = db.DB(args.log, args.token)
+    if not sql.successful():
+        print ("invalid database or token")
         sys.exit(-1)
 
-    else:
-        sql = db.DB(args.log, args.token)
-        if not sql.successful():
-            print ("invalid database or token")
+    ### the main program logic goes here
 
-    ### TODO: the main program logic goes here
-
-#    if(args.arrival and args.departure):
-#        #you cant have both
-#        print ("invalid")
-#        sys.exit(-1)
-#
-#    if(args.guest and args.employee):
-#        #you cant have both
-#        print ("invalid")
-#        sys.exit(-1)
 
     if(args.batchfile and not (args.token or args.timestamp or args.guestname or args.employeename or args.arrival or args.departure or args.roomid or args.log)):
         #batchfile mode
@@ -170,20 +180,20 @@ def handler(args):
 
 ##########CASEs############################################
 
-        if(isPersonInGallery(name, personType)): 
+        if(sql.isPersonInGallery(name, personType)): 
             #the person is already in the gallery
-            if(getCurrentRoomForPerson(name, personType) == None):
+            if(sql.getCurrentRoomForPerson(name, personType) == None):
                 #they are between rooms, or in gallery
                 #then they can only enter a room from here, or leave the gallery
-                if((LastLogTime() < args.timestamp) and direction == "A"):
-                    addLogEntry(name, personType, direction, time, room)
+                if((sql.lastLoggedTime() < args.timestamp) and direction == "A"):
+                    sql.addLogEntry(name, personType, direction, time, room)
                 else:
                     #not a valid time stamp
                     print("invalid")
                     sys.exit(-1)
-            if((getCurrentRoomForPerson(name, personType) == args.roomid) and direction == "D" and LastLogTime() < args.timestamp):
+            if((sql.getCurrentRoomForPerson(name, personType) == args.roomid) and direction == "D" and sql.lastLoggedTime() < args.timestamp):
                 #need to leave room
-                addLogEntry(name, personType, direction, time, room)
+                sql.addLogEntry(name, personType, direction, time, room)
             else:
                 #invalid
                 print("invalid")
@@ -194,9 +204,9 @@ def handler(args):
             if(args.arrival):
                 #valid
                 #need to check time for user against gallery time
-                if(LastLogTime() < args.timestamp):
+                if(sql.lastLoggedTime() < args.timestamp):
                     #valid time stamp
-                    addLogEntry(name, personType, direction, time, room) #add the log entry
+                    sql.addLogEntry(name, personType, direction, args.timestamp, args.roomid) #add the log entry
                 else:
                     #not a valid time stamp
                     print ("invalid")
@@ -208,8 +218,7 @@ def handler(args):
                 sys.exit(-1)
         
     # always gracefully close the DB after it is open!
-    if args.log and args.token:
-        sql.closeDBFile()
+    sql.closeDBFile()
 
 def main(args):
     #TODO check to see if we're in batch mode

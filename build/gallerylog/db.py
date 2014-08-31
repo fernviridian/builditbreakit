@@ -26,6 +26,8 @@ class DB:
     def successful(self):
         try:
             self.cursor.execute("SELECT * FROM testvalid;")
+            self.cursor.execute("SELECT * FROM log;")
+            self.cursor.execute("SELECT * FROM status;")
             return True
         except:
             return False
@@ -191,6 +193,11 @@ if __name__ == "__main__":
    sql.addLogEntry("Ryan", "E", "A", 164, 101)
    sql.addLogEntry("Ryan", "E", "D", 165, 101)
    sql.addLogEntry("Joe", "G", "A", 166, 101)
+   sql.addLogEntry("Mary", "E", "A", 170)
+   sql.addLogEntry("Sally", "E", "A", 171)
+   sql.addLogEntry("Ben", "E", "A", 172)
+   sql.addLogEntry("Sally", "E", "A", 173, 144)
+   sql.addLogEntry("Ben", "E", "A", 174, 144)
    p()
    q()
    s()
