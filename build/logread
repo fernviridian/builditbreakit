@@ -3,13 +3,17 @@
 # rainy_day_hackers
 # Aug 30, 2014
 
+import string
 import sys
 import os.path
 import argparse
 import gallerylog.db as db
 import gallerylog.sanitize as sn
 
-# setting up parser ----------------
+
+# --------------------------------------------------
+# setting up parser
+# --------------------------------------------------
 parser = argparse.ArgumentParser(description='queries the state of the gallery. It prints which employees and guests are in the gallery or its rooms, and allows for various time-based queries of the state of the gallery.')
 
 parser.add_argument('log', metavar='log',  nargs='*',
@@ -39,12 +43,44 @@ args = parser.parse_args()
 
 # TODO: add all the optional arguments (commented out until implemented?)
 
+# -----------------------------------------------------
+# Functions
+# -----------------------------------------------------
 
 # specifcation for how to fail
 def invalid():
     print("invalid")
     sys.exit(-1)
 
+
+# [-H] -S html header stuff
+def SHtmlStart():
+    print("<html>")
+    print("<body>")
+    print("<table>")
+    print("<tr>")
+    print("  <th>Employee</th>")
+    print("  <th>Guest</th>")
+    print("</tr>")
+    print("<tr>")
+
+def SHtmlMid():
+    print("</tr>")
+    print("</table>")
+    print("<table>")
+    print("<tr>")
+    print("  <th>Room ID</th>")
+    print("  <th>Occupants</th>")
+    print("</tr>")
+
+def SHtmlEnd():
+    print("</table>")
+    print("</body>")
+    print("</html>")
+
+# -----------------------------------------------
+# Begin main
+# -----------------------------------------------
 
 # validate args
 # right amount of args and in right combination?
@@ -79,9 +115,11 @@ else:
     invalid()
 
 if args.log:
-    if not (type(args.log) == type('string')):
+    if not len(args.log) == 1:
         # only one log
         invalid()
+    else:
+        args.log = args.log[0]
     if(sn.sanitizeAlphanumeric(args.log) == False):
         invalid()
     if not (os.path.isfile(args.log)):
@@ -118,26 +156,28 @@ if not sql.successful():
 
 # name, type, room?
 if args.state:
-    # employees first
-    listEmployees=sql.getPeopleHereByType('G')
-    stringEmployees=''
-    comma=','
-    for item in listEmployees:
-        stringEmployees+=item+comma
-        stringEmployees=stringEmployees.rstrip(comma)
-    print(stringEmployees)
-    print(listEmployees)
-    # guests next
-    listEmployees=sql.getPeopleHereByType('G')
-#    stringEmployees=''
-#    for item in listEmployees:
-#        stringEmployees+=item+','
-#        stringEmployees.rstrip(",")
-    # rooms
+    # get the data
+    listEmployees=sql.getPeopleHereByType('E')
+    listGuests=sql.getPeopleHereByType('G')
+    roomDict=sql.getPeopleByRoom()
 
-
-
-
+    if args.html:
+        SHtmlStart()
+        print("<td>{0}</td>".format(string.join(listEmployees,',')))
+        print("<td>{0}</td>".format(string.join(listGuests,',')))
+        SHtmlMid()
+        for room,personList in sorted(roomDict.items()):
+            print("<tr>")
+            print("  <td>{0}</td>".format(room))
+            print("  <td>{0}</td>".format(string.join(personList,',')))
+            print("</tr>")
+        SHtmlEnd()
+    else:
+        # normal out put
+        print(string.join(listEmployees,','))
+        print(string.join(listGuests,','))
+        for room,personList in sorted(roomDict.items()):
+            print("{0}: {1}".format(room,string.join(personList,',')))
 
 
 # always gracefully close the DB after it is open!
