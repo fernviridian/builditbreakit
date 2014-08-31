@@ -105,9 +105,14 @@ def areArgumentsValid(args):
 
 def handler(args):
     # now we can open and verify the encrypted database
-    sql = db.DB(args.log, args.token)
-    if not sql.successful():
-        print ("invalid database or token")
+    if not args.log or not args.token:
+        print ("invalid")
+        sys.exit(-1)
+
+    else:
+        sql = db.DB(args.log, args.token)
+        if not sql.successful():
+            print ("invalid database or token")
 
     ### TODO: the main program logic goes here
 
@@ -163,20 +168,33 @@ def handler(args):
         # LR13
         # [ ER$ | LG ]
 
-##########CASE 1############################################
+##########CASEs############################################
 
         if(isPersonInGallery(name, personType)): 
             #the person is already in the gallery
             if(getCurrentRoomForPerson(name, personType) == None):
                 #they are between rooms, or in gallery
                 #then they can only enter a room from here, or leave the gallery
+                if((LastLogTime() < args.timestamp) and direction == "A"):
+                    addLogEntry(name, personType, direction, time, room)
+                else:
+                    #not a valid time stamp
+                    print("invalid")
+                    sys.exit(-1)
+            if((getCurrentRoomForPerson(name, personType) == args.roomid) and direction == "D" and LastLogTime() < args.timestamp):
+                #need to leave room
+                addLogEntry(name, personType, direction, time, room)
+            else:
+                #invalid
+                print("invalid")
+                sys.exit(-1)
 
         else:
             #they are not in the gallery, so they only can enter the gallery
             if(args.arrival):
                 #valid
                 #need to check time for user against gallery time
-                if(LastLogTime < args.timestamp):
+                if(LastLogTime() < args.timestamp):
                     #valid time stamp
                     addLogEntry(name, personType, direction, time, room) #add the log entry
                 else:
@@ -189,13 +207,9 @@ def handler(args):
                 print("invalid")
                 sys.exit(-1)
         
-##########CASE 2############################################
-        
-
-##########CASE 3############################################
-        
     # always gracefully close the DB after it is open!
- #   sql.closeDBFile()
+    if args.log and args.token:
+        sql.closeDBFile()
 
 def main(args):
     #TODO check to see if we're in batch mode
