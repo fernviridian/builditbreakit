@@ -11,7 +11,7 @@ import sys
 # TODO: we should customize help output better
 parser = argparse.ArgumentParser(description='Appends data to the log at the specified timestamp using the authentication token. If the log does not exist, logappend will create it. Otherwise it will append to the existing log. If the data to be appended to the log is not consistent with the current state of the log, logappend should print "invalid" and leave the state of the log unchanged.')
 
-parser.add_argument('log', metavar='log', nargs='?',
+parser.add_argument('log', metavar='log', nargs='*',
                    help="The path to the file containing the event log. The log's filename may be specified with a string of alphanumeric characters. If the log does not exist, logappend should create it. logappend should add data to the log, preserving the history of the log such that queries from logread can be answered. If the log file cannot be created due to an invalid path, or any other error, logappend should print \"invalid\" and return -1.")
 
 parser.add_argument('-T', dest='timestamp', action='store',
@@ -94,6 +94,13 @@ def areArgumentsValid(args):
 #        if(sn.sanitizeAlphanumeric(args.batchfile) == False):
 #            returnValue = False
 #            return returnValue
+
+    if not len(args.log) == 1:
+        # only one log
+        returnValue = False
+        return returnValue
+    else:
+        args.log = args.log[0]
 
     if args.log:
         if(sn.sanitizeAlphanumeric(args.log) == False):
