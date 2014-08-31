@@ -213,7 +213,7 @@ def handler(args):
             if(args.arrival):
                 #valid
                 #need to check time for user against gallery time
-                if(sql.lastLoggedTime() < args.timestamp):
+                if(sql.lastLoggedTime() < args.timestamp) and sql.isPersonNew(name, personType):
                     #valid time stamp
                     sql.addLogEntry(name, personType, direction, args.timestamp, args.roomid) #add the log entry
                 else:

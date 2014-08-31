@@ -1,3 +1,4 @@
 default: build
 build:
-	@echo "TODO: compile for optimization"
+	./logappend 2>/dev/null >/dev/null || true
+	./logread 2>/dev/null >/dev/null || true
