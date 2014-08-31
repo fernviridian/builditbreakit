@@ -113,25 +113,25 @@ def fileHandler(filename):
         for line in batchFile:
         #with open(filename, "r") as batchFile:
          #   for line in batchFile:
-            print line
             #take newline out of line, then split the lin
             batchFileLine = line.rstrip('\n')
             batchFileLine = batchFileLine.split(" ") #split on spaces from argument list
             batchFileArgs = parser.parse_args(batchFileLine)
-            print batchFileArgs
             if((areArgumentsValid(batchFileArgs) == True) and not batchFileArgs.batchfile):
                 #arguments are valid
-                handler(batchFileArgs) #run the handler
+                if(not handler(batchFileArgs)): #run the handler
+                    print("invalid")
             else:
                 print("invalid")
+        return True
 
     else:
+        #file doesnt exist
         print("invalid")
         sys.exit(-1)
 
 
 def handler(args):
-    print("handler")
     # now we can open and verify the encrypted database
     #if not args.log or not args.token:
     #    print ("invalid")
@@ -140,15 +140,14 @@ def handler(args):
 
     if(args.batchfile and not (args.token or args.timestamp or args.guestname or args.employeename or args.arrival or args.departure or args.roomid or args.log)):
         #batchfile mode
-        print ("batchfile mode")
-        fileHandler(args.batchfile) #call the file handler 
+        return fileHandler(args.batchfile) #call the file handler 
 
 
     if(args.token and args.timestamp and (args.guestname or args.employeename) and (args.arrival or args.departure) and args.log):
         sql = db.DB(args.log, args.token)
         if not sql.successful():
             print ("invalid database or token")
-            sys.exit(-1)
+            return False
 
         #valid query
         #G - guest char
@@ -201,16 +200,14 @@ def handler(args):
                     sql.addLogEntry(name, personType, direction, args.timestamp, args.roomid)
                 else:
                     #not a valid time stamp
-                    print("invalid")
-                    sys.exit(-1)
+                    return False
 
             elif((sql.getCurrentRoomForPerson(name, personType) == args.roomid) and direction == "D" and (sql.lastLoggedTime() < args.timestamp)):
                 #need to leave room first
                 sql.addLogEntry(name, personType, direction, args.timestamp, args.roomid)
             else:
                 #invalid
-                print("invalid")
-                sys.exit(-1)
+                return False
 
         else:
             #they are not in the gallery, so they only can enter the gallery
@@ -222,26 +219,28 @@ def handler(args):
                     sql.addLogEntry(name, personType, direction, args.timestamp, args.roomid) #add the log entry
                 else:
                     #not a valid time stamp
-                    print ("invalid")
-                    sys.exit(-1)
+                    return False
 
             elif(args.departure):
                 #invalid, they cant leave if they arent already there
-                print("invalid")
-                sys.exit(-1)
-    else:
-        print("invalid")
-        sys.exit(-1)
-        
-    # always gracefully close the DB after it is open!
-    if(sql):
-        sql.closeDBFile()
+                return False
 
+        # always gracefully close the DB after it is open!
+        if(sql):
+            sql.closeDBFile()
+            return True
+
+    else:
+        return False
+        
 def main(args):
     if (areArgumentsValid(args) == True):
         #either in batch file mode or normal mode
         #now we know the arguments are valid, start passing them to db backend
-        handler(args) #cmd line handler
+        if((handler(args) == False)):
+            #cmd line handler
+            print("invalid")
+            sys.exit(-1)
 
     else:
         print ("invalid")
