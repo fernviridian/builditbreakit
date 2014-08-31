@@ -102,6 +102,17 @@ def RHtmlEnd():
     print("</table>")
     print("</body>")
     print("</html>")
+
+def AHtmlStart():
+    print("<table>")
+    print("<body>")
+    print("<html>")
+
+def AHtmlEnd():
+    print("</table>")
+    print("</body>")
+    print("</html>")
+
 # -----------------------------------------------
 # Begin main
 # -----------------------------------------------
@@ -122,35 +133,31 @@ if(len(unknown) > 0):
     #invalid()
 
 # right amount of args? cleaner version
+# if -S
 if (args.state):
     if (args.roomlist or args.totaltime or args.empsearch or args.lowtime or args.uppertime or args.employeename or args.guestname):
         invalid()
+# if -R
 if (args.roomlist):
     if (args.state or args.totaltime or args.empsearch or args.lowtime or args.uppertime):
         invalid()
+# if -T
 if (args.totaltime):
     if (args.state or args.roomlist or args.empsearch or args.lowtime or args.uppertime or args.html):
         invalid()        # html not valid flag for totaltime
+# if -A
 if (args.empsearch):
-    if (args.state or args.roomlist or args.empsearch or not args.lowtime or not args.uppertime):
+    if (args.state or args.roomlist or args.totaltime or args.guestname or args.employeename or not args.lowtime or not args.uppertime):
         invalid()
 
 # must have at least one
 if not(args.state or args.roomlist or args.totaltime or args.empsearch):
     invalid()
 
-#if (args.totaltime and args.html):
-#    # html not valis with total time per spec
-#    invalid()
-
 # may need to adjust this if we hit the optional #2
 if (args.guestname and args.employeename):
     # pick one, not both
     invalid()
-
-#if (args.state and (args.employeename or args.guestname)):
-#    # names not valid for state
-#    invalid()
 
 if ((args.roomlist or args.totaltime) and not (args.guestname or args.employeename)):
     # roomlist/total time requires name
@@ -204,6 +211,9 @@ if args.lowtime:
     if(int(args.lowtime < 0 )):
         invalid()
     args.lowtime = int(args.lowtime)
+    # limit numbers to 32 bit intergers...
+    if(args.lowtime > 4294967295):
+        invalid()
 
 if args.uppertime:
     if(sn.sanitizeNumber(args.uppertime) == False):
@@ -211,6 +221,9 @@ if args.uppertime:
     if(int(args.uppertime < args.lowtime)):
         invalid()
     args.uppertime = int(args.uppertime)
+    # limit numbers to 32 bit intergers...
+    if(args.uppertime > 4294967295):
+        invalid()
 
 # args shouold now be valid
 # now we can open and verify the encrypted database
@@ -282,10 +295,16 @@ if args.totaltime:
 # -A flag
 if args.empsearch:
     invalid()
-else:
-    invalid()
-
-
+    nameList=sql.getEmployeesDuringRange(args.lowtime,args.uppertime)
+    if args.html:
+        AHtmlStart()
+        for name in nameList:
+            print("<tr>")
+            print("<th>{0}</th>".format(name))
+            print("</tr>")
+        AhtmlEnd()
+    else:
+        print(string.join(nameList,','))
 
 
 # always gracefully close the DB after it is open!
