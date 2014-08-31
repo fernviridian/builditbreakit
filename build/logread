@@ -38,7 +38,7 @@ parser.add_argument('-S', dest='state', action='store_const', default=False, con
 parser.add_argument('-R', dest='roomlist', action='store_const', default=False, const=True,
                    help="Give a list of all rooms entered by an employee or guest. Output the list of rooms in chronological order. If this argument is specified, either -E or -G must be specified. The list is printed to stdout in one comma-separated list of room identifiers. If -H is specified, the format should instead by in HTML conforming to the following HTML specification.")
 
-parser.add_argument('-T', dest='totaltime', action'=store_const', default=False, const=True,
+parser.add_argument('-T', dest='totaltime', action='store_const', default=False, const=True,
                    help="Give a total amount of time for a guest/user in the gallery.")
 
 args, unknown = parser.parse_known_args()
@@ -104,16 +104,16 @@ if(len(unknown) > 0):
     invalid()
 
 # right amount of args?
-if (args.state and args.roomlist) or
+if ((args.state and args.roomlist) or
         (args.state and args.totaltime) or
         (args.roomlist and args.totaltime) or not
-        (args.state or args.roomlist or args.totaltime):
+        (args.state or args.roomlist or args.totaltime)):
     # can't have both/all but must have one
     invalid()
 
 if (args.totaltime and args.html):
     # html not valis with total time per spec
-    incalid()
+    invalid()
 
 # may need to adjust this if we hit the optional #2
 if (args.guestname and args.employeename):
@@ -124,7 +124,7 @@ if (args.state and (args.employeename or args.guestname)):
     # names not valid for state
     invalid()
 
-if ((args.roomlist or args.totaltime)) and not (args.guestname or args.employeename)):
+if ((args.roomlist or args.totaltime) and not (args.guestname or args.employeename)):
     # roomlist/total time requires name
     invalid()
 
