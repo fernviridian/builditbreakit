@@ -21,7 +21,7 @@ class DB:
         if not fileExists:
             self.cursor.execute("CREATE TABLE testvalid(nothing);")
             self.cursor.execute("CREATE TABLE log(name NOT NULL, personType NOT NULL, direction NOT NULL, time INTEGER NOT NULL, room integer);")
-            self.cursor.execute("CREATE TABLE status(name NOT NULL, personType NOT NULL, isHere NOT NULL DEFAULT 'f', currentRoom integer);")
+            self.cursor.execute("CREATE TABLE status(name NOT NULL, personType NOT NULL, isHere NOT NULL DEFAULT 'f', currentRoom integer, enterTime INTEGER, exitTime INTEGER);")
 
     def successful(self):
         try:
@@ -87,8 +87,8 @@ class DB:
         self.cursor.execute("INSERT INTO log(name, personType, direction, time, room) VALUES (?, ?, ?, ?, ?);",
                             (name, personType, direction, time, room))
         if self.isPersonNew(name, personType):
-            self.cursor.execute("INSERT INTO status(name, personType, currentRoom, isHere) VALUES (?, ?, ?, 't');",
-                                (name, personType, room))
+            self.cursor.execute("INSERT INTO status(name, personType, currentRoom, isHere, enterTime) VALUES (?, ?, ?, 't', ?);",
+                                (name, personType, room, time))
         else:
             if direction == "A":
                 if room == None:
@@ -99,8 +99,8 @@ class DB:
                                         (room, name, personType))
             else: # departure
                 if room == None:
-                    self.cursor.execute("UPDATE status SET isHere = 'f' WHERE name LIKE ? AND personType LIKE ?;",
-                                        (name, personType))
+                    self.cursor.execute("UPDATE status SET isHere = 'f', exitTime = ? WHERE name LIKE ? AND personType LIKE ?;",
+                                        (time, name, personType))
                 else:
                     self.cursor.execute("UPDATE status SET currentRoom = NULL WHERE name LIKE ? AND personType LIKE ?;",
                                         (name, personType))
@@ -114,6 +114,14 @@ class DB:
         if v == None:
             v = -1
         return v
+
+    # for logread -A and -B
+
+    def getEmployeesDuringRange(self, startTime, endTime):
+        self.cursor.execute("SELECT name FROM status WHERE personType LIKE 'E' AND enterTime <= ? AND (exitTime IS NULL OR exitTime >= ?) BY name ASC;", endTime, startTime)
+        val = self.cursor.fetchall()
+        val = map(lambda x: x[0], val)
+        return val
 
     # for logread -S
 
@@ -133,7 +141,7 @@ class DB:
         val = map(lambda x: x[0], val)
         return val
 
-    # for additional functionality
+    # for logread -I
 
     def getLogByPerson(self, name, personType):
         self.cursor.execute("SELECT time, direction, room FROM log WHERE personType LIKE ? AND name LIKE ? ORDER BY time ASC;", (personType, name))
