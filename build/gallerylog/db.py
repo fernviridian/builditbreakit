@@ -94,9 +94,15 @@ class DB:
 
     # for logread -S
 
-    # TODO: implement
     def getPeopleByRoom(self):
-        return dict() # mapping room numbers to list of people
+        self.cursor.execute("SELECT currentRoom, name FROM status WHERE currentRoom IS NOT NULL ORDER BY name ASC;")
+        ret = dict()
+        myl = self.cursor.fetchall()
+        for row in myl:
+            if not row[0] in ret.keys():
+                ret[row[0]] = []
+            ret[row[0]].append(row[1])
+        return ret
 
     def getPeopleHereByType(self, personType):
         self.cursor.execute("SELECT name FROM status WHERE personType LIKE ? AND isHere = 't' ORDER BY name ASC;", (personType))
@@ -132,6 +138,8 @@ if __name__ == "__main__":
        print "Is here: " + str(sql.isPersonInGallery("Ryan", "E"))
        print "Current Room: " + str(sql.getCurrentRoomForPerson("Ryan", "E"))
        print "Last logged: " + str(sql.lastLoggedTime())
+       print
+       print "Status: " + str(sql.getPeopleByRoom())
        print "================================"
        print
 
