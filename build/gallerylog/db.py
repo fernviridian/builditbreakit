@@ -43,6 +43,14 @@ class DB:
             ret = ret[0]
         return ret
 
+    def isPersonNew(self, name, personType):
+        self.cursor.execute("SELECT count(*) FROM status WHERE name LIKE ? AND personType LIKE ?", (name, personType))
+        value = self.cursor.fetchone()[0]
+        if value == 0:
+            return True
+        else:
+            return False
+
     def isPersonInGallery(self, name, personType):
         self.cursor.execute("SELECT isHere FROM status WHERE name LIKE ? AND personType LIKE ?", (name, personType))
         ret = self.cursor.fetchone()
@@ -63,9 +71,7 @@ class DB:
     def addLogEntry(self, name, personType, direction, time, room=None):
         self.cursor.execute("INSERT INTO log(name, personType, direction, time, room) VALUES (?, ?, ?, ?, ?);",
                             (name, personType, direction, time, room))
-        self.cursor.execute("SELECT count(*) FROM status WHERE name LIKE ? AND personType LIKE ?", (name, personType))
-        value = self.cursor.fetchone()[0]
-        if value == 0:
+        if self.isPersonNew(name, personType):
             self.cursor.execute("INSERT INTO status(name, personType, currentRoom, isHere) VALUES (?, ?, ?, 't');",
                                 (name, personType, room))
         else:
@@ -201,6 +207,8 @@ if __name__ == "__main__":
    p()
    q()
    s()
+   print sql.isPersonNew("Jack", "E")
+   print sql.isPersonNew("Ben", "E")
 
    # always gracefully close the DB after it is open!
    sql.closeDBFile()
