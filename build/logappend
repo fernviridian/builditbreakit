@@ -105,9 +105,14 @@ def areArgumentsValid(args):
 
 def handler(args):
     # now we can open and verify the encrypted database
-    sql = db.DB(args.log, args.token)
-    if not sql.successful():
-        print ("invalid database or token")
+    if not args.log or not args.token:
+        print ("invalid")
+        sys.exit(-1)
+
+    else:
+        sql = db.DB(args.log, args.token)
+        if not sql.successful():
+            print ("invalid database or token")
 
     ### TODO: the main program logic goes here
 
@@ -203,7 +208,8 @@ def handler(args):
                 sys.exit(-1)
         
     # always gracefully close the DB after it is open!
-    sql.closeDBFile()
+    if args.log and args.token:
+        sql.closeDBFile()
 
 def main(args):
     #TODO check to see if we're in batch mode
