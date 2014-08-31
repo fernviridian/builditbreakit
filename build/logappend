@@ -188,6 +188,8 @@ def handler(args):
 ##########CASEs############################################
         if(args.timestamp):
             args.timestamp = int(args.timestamp)
+            if(args.timestamp > 4294967295):
+                return False
         if(args.roomid):
             args.roomid = int(args.roomid)
 
