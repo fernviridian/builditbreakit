@@ -146,7 +146,7 @@ def handler(args):
     if(args.token and args.timestamp and (args.guestname or args.employeename) and (args.arrival or args.departure) and args.log):
         sql = db.DB(args.log, args.token)
         if not sql.successful():
-            print ("invalid database or token")
+            sys.stderr.write('security error\n')
             return False
 
         #valid query
