@@ -119,8 +119,7 @@ def fileHandler(filename):
             batchFileArgs, unknown = parser.parse_known_args(batchFileLine)
             if((areArgumentsValid(batchFileArgs) == True) and not batchFileArgs.batchfile and len(unknown) == 0):
                 #arguments are valid
-                if(not handler(batchFileArgs)): #run the handler
-                    print("invalid")
+                handler(batchFileArgs)
             else:
                 print("invalid")
         return True
@@ -189,6 +188,7 @@ def handler(args):
         if(args.timestamp):
             args.timestamp = int(args.timestamp)
             if(args.timestamp > 4294967295):
+                print("invalid")
                 return False
         if(args.roomid):
             args.roomid = int(args.roomid)
@@ -202,6 +202,7 @@ def handler(args):
                     sql.addLogEntry(name, personType, direction, args.timestamp, args.roomid)
                 else:
                     #not a valid time stamp
+                    print("invalid")
                     return False
 
             elif((sql.getCurrentRoomForPerson(name, personType) == args.roomid) and direction == "D" and (sql.lastLoggedTime() < args.timestamp)):
@@ -209,6 +210,7 @@ def handler(args):
                 sql.addLogEntry(name, personType, direction, args.timestamp, args.roomid)
             else:
                 #invalid
+                print("invalid")
                 return False
 
         else:
@@ -221,10 +223,12 @@ def handler(args):
                     sql.addLogEntry(name, personType, direction, args.timestamp, args.roomid) #add the log entry
                 else:
                     #not a valid time stamp
+                    print("invalid")
                     return False
 
             elif(args.departure):
                 #invalid, they cant leave if they arent already there
+                print("invalid")
                 return False
 
         # always gracefully close the DB after it is open!
@@ -233,15 +237,15 @@ def handler(args):
             return True
 
     else:
+        print("invalid")
         return False
-        
+
 def main(args):
     if (areArgumentsValid(args) == True and len(unknown) == 0):
         #either in batch file mode or normal mode
         #now we know the arguments are valid, start passing them to db backend
         if((handler(args) == False)):
             #cmd line handler
-            print("invalid")
             sys.exit(-1)
 
     else:
