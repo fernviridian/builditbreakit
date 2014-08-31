@@ -41,6 +41,16 @@ parser.add_argument('-R', dest='roomlist', action='store_const', default=False, 
 parser.add_argument('-T', dest='totaltime', action='store_const', default=False, const=True,
                    help="Give a total amount of time for a guest/user in the gallery.")
 
+parser.add_argument('-A', dest='empsearch', action='store_const', default=False, const=True,
+                   help="List employees present between times -L/-U.")
+
+parser.add_argument('-L', dest='lowtime', action='store', default=None,
+                   help="Lower time bound, integer: 0 or greater.")
+
+parser.add_argument('-U', dest='uppertime', action='store', default=None,
+                   help="Upper time bound, integer: 0 or greater and greater than or equal to lower.")
+
+
 args, unknown = parser.parse_known_args()
 
 
@@ -60,8 +70,8 @@ def SHtmlStart():
     print("<body>")
     print("<table>")
     print("<tr>")
-    print("  <th>Employee</th>")
-    print("  <th>Guest</th>")
+    print("<th>Employee</th>")
+    print("<th>Guest</th>")
     print("</tr>")
     print("<tr>")
 
@@ -70,8 +80,8 @@ def SHtmlMid():
     print("</table>")
     print("<table>")
     print("<tr>")
-    print("  <th>Room ID</th>")
-    print("  <th>Occupants</th>")
+    print("<th>Room ID</th>")
+    print("<th>Occupants</th>")
     print("</tr>")
 
 def SHtmlEnd():
@@ -85,7 +95,7 @@ def RHtmlStart():
     print("<body>")
     print("<table>")
     print("<tr>")
-    print("  <th>Rooms</th>")
+    print("<th>Rooms</th>")
     print("</tr>")
 
 def RHtmlEnd():
@@ -104,25 +114,43 @@ if(len(unknown) > 0):
     invalid()
 
 # right amount of args?
-if ((args.state and args.roomlist) or
-        (args.state and args.totaltime) or
-        (args.roomlist and args.totaltime) or not
-        (args.state or args.roomlist or args.totaltime)):
+#if ((args.state and args.roomlist) or
+#        (args.state and args.totaltime) or
+#        (args.roomlist and args.totaltime) or not
+#        (args.state or args.roomlist or args.totaltime)):
     # can't have both/all but must have one
+    #invalid()
+
+# right amount of args? cleaner version
+if (args.state):
+    if (args.roomlist or args.totaltime or args.empsearch or args.lowtime or args.uppertime or args.employeename or args.guestname):
+        invalid()
+if (args.roomlist):
+    if (args.state or args.totaltime or args.empsearch or args.lowtime or args.uppertime):
+        invalid()
+if (args.totaltime):
+    if (args.state or args.roomlist or args.empsearch or args.lowtime or args.uppertime or args.html):
+        invalid()        # html not valid flag for totaltime
+if (args.empsearch):
+    if (args.state or args.roomlist or args.empsearch or not args.lowtime or not args.uppertime):
+        invalid()
+
+# must have at least one
+if not(args.state or args.roomlist or args.totaltime or args.empsearch):
     invalid()
 
-if (args.totaltime and args.html):
-    # html not valis with total time per spec
-    invalid()
+#if (args.totaltime and args.html):
+#    # html not valis with total time per spec
+#    invalid()
 
 # may need to adjust this if we hit the optional #2
 if (args.guestname and args.employeename):
     # pick one, not both
     invalid()
 
-if (args.state and (args.employeename or args.guestname)):
-    # names not valid for state
-    invalid()
+#if (args.state and (args.employeename or args.guestname)):
+#    # names not valid for state
+#    invalid()
 
 if ((args.roomlist or args.totaltime) and not (args.guestname or args.employeename)):
     # roomlist/total time requires name
@@ -170,6 +198,19 @@ if args.guestname:
     if(sn.sanitizeAlpha(args.guestname) == False):
         invalid()
 
+if args.lowtime:
+    if(sn.sanitizeNumber(args.lowtime) == False):
+        invalid()
+    if(int(args.lowtime < 0 )):
+        invalid()
+    args.lowtime = int(args.lowtime)
+
+if args.uppertime:
+    if(sn.sanitizeNumber(args.uppertime) == False):
+        invalid()
+    if(int(args.uppertime < args.lowtime)):
+        invalid()
+    args.uppertime = int(args.uppertime)
 
 # args shouold now be valid
 # now we can open and verify the encrypted database
@@ -196,8 +237,8 @@ if args.state:
         SHtmlMid()
         for room,personList in sorted(roomDict.items()):
             print("<tr>")
-            print("  <td>{0}</td>".format(room))
-            print("  <td>{0}</td>".format(string.join(personList,',')))
+            print("<td>{0}</td>".format(room))
+            print("<td>{0}</td>".format(string.join(personList,',')))
             print("</tr>")
         SHtmlEnd()
     else:
@@ -221,7 +262,7 @@ if args.roomlist:
         RHtmlStart()
         for room in roomList:
             print("<tr>")
-            print("  <td>{0}</td>".format(room))
+            print("<td>{0}</td>".format(room))
             print("</tr>")
         RHtmlEnd()
     else:
@@ -238,7 +279,9 @@ if args.totaltime:
     if time:
         print(time)
 
-
+# -A flag
+if args.empsearch:
+    invalid()
 
 # always gracefully close the DB after it is open!
 sql.closeDBFile()
