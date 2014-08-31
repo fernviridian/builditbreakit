@@ -12,17 +12,17 @@ import gallerylog.sanitize as sn
 # setting up parser ----------------
 parser = argparse.ArgumentParser(description='queries the state of the gallery. It prints which employees and guests are in the gallery or its rooms, and allows for various time-based queries of the state of the gallery.')
 
-parser.add_argument('log', metavar='log',
+parser.add_argument('log', metavar='log', # nargs='?',
                    help="The path to the file log used for recording events. The filename may be specified with a string of alphanumeric characters.")
 
 parser.add_argument('-K', dest='token', action='store',
-                   default=None, required=True,
+                   default='',
                    help="Token used to authenticate the log. This token consists of an arbitrary sized string of alphanumeric characters and will be the same between executions of logappend and logread. If the log cannot be authenticated with the token (i.e., it is not the same token that was used to create the file), then \"security error\" should be printed to stderr and -1 should be returned.")
 
-parser.add_argument('-E', dest='employeename', action='store', default=None,
+parser.add_argument('-E', dest='employeename', action='store', default='',  # I want an empty of type string, not none for logic later
                    help="Employee name. May be specified multiple times.")
 
-parser.add_argument('-G', dest='guestname', action='store', default=None,
+parser.add_argument('-G', dest='guestname', action='store', default='',
                    help="Guest name. May be specified multiple times.")
 
 parser.add_argument('-H', dest='html', action='store_const', default=False, const=True,
@@ -41,18 +41,19 @@ args = parser.parse_args()
 
 
 # specifcation for how to fail
-def invalid()
+def invalid():
     print("invalid")
     sys.exit(-1)
 
+
 # validate args
 # right amount of args and in right combination?
-if (args.state and args.roomlist) or not (arg.state or arg.roomlist):
+if (args.state and args.roomlist) or not (args.state or args.roomlist):
     # can't have both but must have one
     invalid()
 
 # may need to adjust this if we hit the optional #2
-if (args.guestname and args.employeename)
+if (args.guestname and args.employeename):
     # pick one, not both
     invalid()
 
@@ -71,7 +72,7 @@ if args.token:
     if not (type(args.token) == type('string')):
         # only one token
         invalid()
-    if(sn.sanitize_alphanumeric(args.token) == False):
+    if(sn.sanitizeAlphanumeric(args.token) == False):
         invalid()
 else:
     # token is required
@@ -81,7 +82,7 @@ if args.log:
     if not (type(args.employeename) == type('string')):
         # only one log
         invalid()
-    if(sn.sanitize_alphanumeric(args.log) == False):
+    if(sn.sanitizeAlphanumeric(args.log) == False):
         invalid()
     if not (os.path.isfile(args.log)):
         # is that actually a log file?
@@ -94,14 +95,14 @@ if args.employeename:
     # ensure only one arg with -E
     if not (type(args.employeename) == type('string')):
         invalid()
-    if(sn.sanitize_alpha(args.employeename) == False):
+    if(sn.sanitizeAlpha(args.employeename) == False):
         invalid()
 
 if args.guestname:
     # ensure only one arg with -G
     if not (type(args.guestname) == type('string')):
         invalid()
-    if(sn.sanitize_alpha(args.guestname) == False):
+    if(sn.sanitizeAlpha(args.guestname) == False):
         invalid()
 
 
@@ -118,11 +119,14 @@ if not sql.successful():
 # name, type, room?
 if args.state:
     # employees first
-    listEmployees=sql.getPeopleHereByType('E')
-#    stringEmployees=''
-#    for item in listEmployees:
-#        stringEmployees+=item+','
-#        stringEmployees.rstrip(",")
+    listEmployees=sql.getPeopleHereByType('G')
+    stringEmployees=''
+    comma=','
+    for item in listEmployees:
+        stringEmployees+=item+comma
+        stringEmployees=stringEmployees.rstrip(comma)
+    print(stringEmployees)
+    print(listEmployees)
     # guests next
     listEmployees=sql.getPeopleHereByType('G')
 #    stringEmployees=''
@@ -130,9 +134,7 @@ if args.state:
 #        stringEmployees+=item+','
 #        stringEmployees.rstrip(",")
     # rooms
-    
 
-    (sql.getRoomsForPerson())
 
 
 
