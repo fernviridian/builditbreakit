@@ -4,7 +4,7 @@
 # Aug 30, 2014
 
 import sys
-
+import os.path
 import argparse
 import gallerylog.db as db
 import gallerylog.sanitize as sn
@@ -51,6 +51,11 @@ if (args.state and args.roomlist) or not (arg.state or arg.roomlist):
     # can't have both but must have one
     invalid()
 
+# may need to adjust this if we hit the optional #2
+if (args.guestname and args.employeename)
+    # pick one, not both
+    invalid()
+
 if (args.state and (args.employeename or args.guestname)):
     # names not valid for state
     invalid()
@@ -58,6 +63,7 @@ if (args.state and (args.employeename or args.guestname)):
 if (args.roomlist and not (args.guestname or args.employeename)):
     # roomlist requires name(s)
     invalid()
+
 
 
 # sanitized text?
@@ -77,29 +83,30 @@ if args.log:
         invalid()
     if(sn.sanitize_alphanumeric(args.log) == False):
         invalid()
-    if not 
+    if not (os.path.isfile(args.log)):
+        # is that actually a log file?
+        invalid()
 else:
-    # need a log always
+    # need to specify a log file always
     invalid()
 
 if args.employeename:
-    if(sn.sanitize_alpha(args.employeename) == False):
-        invalid()
     # ensure only one arg with -E
     if not (type(args.employeename) == type('string')):
         invalid()
+    if(sn.sanitize_alpha(args.employeename) == False):
+        invalid()
 
 if args.guestname:
-    if(sn.sanitize_alpha(args.guestname) == False):
-        invalid()
     # ensure only one arg with -G
     if not (type(args.guestname) == type('string')):
+        invalid()
+    if(sn.sanitize_alpha(args.guestname) == False):
         invalid()
 
 
 # args shouold now be valid
 # now we can open and verify the encrypted database
-
 
 sql = db.DB(args.log, args.token)
 if not sql.successful():
@@ -108,7 +115,24 @@ if not sql.successful():
 
 ### TODO: the main program logic goes here
 
+# name, type, room?
+if args.state:
+    # employees first
+    listEmployees=sql.getPeopleHereByType('E')
+#    stringEmployees=''
+#    for item in listEmployees:
+#        stringEmployees+=item+','
+#        stringEmployees.rstrip(",")
+    # guests next
+    listEmployees=sql.getPeopleHereByType('G')
+#    stringEmployees=''
+#    for item in listEmployees:
+#        stringEmployees+=item+','
+#        stringEmployees.rstrip(",")
+    # rooms
+    
 
+    (sql.getRoomsForPerson())
 
 
 
