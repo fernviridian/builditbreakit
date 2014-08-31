@@ -294,7 +294,6 @@ if args.totaltime:
 
 # -A flag
 if args.empsearch:
-    invalid()
     nameList=sql.getEmployeesDuringRange(args.lowtime,args.uppertime)
     if args.html:
         AHtmlStart()
@@ -302,7 +301,7 @@ if args.empsearch:
             print("<tr>")
             print("<th>{0}</th>".format(name))
             print("</tr>")
-        AhtmlEnd()
+        AHtmlEnd()
     else:
         print(string.join(nameList,','))
 
