@@ -118,7 +118,7 @@ class DB:
     # for logread -A and -B
 
     def getEmployeesDuringRange(self, startTime, endTime):
-        self.cursor.execute("SELECT name FROM status WHERE enterTime <= ? AND (exitTime IS NULL OR exitTime >= ?) BY name ASC;", endTime, startTime)
+        self.cursor.execute("SELECT name FROM status WHERE personType LIKE 'E' AND enterTime <= ? AND (exitTime IS NULL OR exitTime >= ?) BY name ASC;", endTime, startTime)
         val = self.cursor.fetchall()
         val = map(lambda x: x[0], val)
         return val
@@ -141,7 +141,7 @@ class DB:
         val = map(lambda x: x[0], val)
         return val
 
-    # for additional functionality
+    # for logread -I
 
     def getLogByPerson(self, name, personType):
         self.cursor.execute("SELECT time, direction, room FROM log WHERE personType LIKE ? AND name LIKE ? ORDER BY time ASC;", (personType, name))
