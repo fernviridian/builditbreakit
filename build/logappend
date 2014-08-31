@@ -140,7 +140,8 @@ def handler(args):
         #batchfile mode
         print ("batchfile mode")
 
-    if(args.token and args.timestamp and (args.guestname or args.employeename) and (args.arrival or args.departure) and args.roomid and args.log):
+    if(args.token and args.timestamp and (args.guestname or args.employeename) and (args.arrival or args.departure) and args.log):
+#TODO make sure roomid isnt required
         #valid query
         #G - guest char
         #E - employee char
@@ -160,7 +161,6 @@ def handler(args):
         if(args.departure):
             direction = "D"
             
-        print ("query mode")
         #also need to call inPersoninGallery and getCurrentRoomForPerson, then we can add the log entry
         #there are 3 cases:
         # case1: 
@@ -179,21 +179,23 @@ def handler(args):
         # [ ER$ | LG ]
 
 ##########CASEs############################################
+        args.timestamp = int(args.timestamp)
 
         if(sql.isPersonInGallery(name, personType)): 
             #the person is already in the gallery
             if(sql.getCurrentRoomForPerson(name, personType) == None):
                 #they are between rooms, or in gallery
                 #then they can only enter a room from here, or leave the gallery
-                if((sql.lastLoggedTime() < args.timestamp) and direction == "A"):
-                    sql.addLogEntry(name, personType, direction, time, room)
+                if((sql.lastLoggedTime() < args.timestamp) and direction):
+                    sql.addLogEntry(name, personType, direction, args.timestamp, args.roomid)
                 else:
                     #not a valid time stamp
                     print("invalid")
                     sys.exit(-1)
-            if((sql.getCurrentRoomForPerson(name, personType) == args.roomid) and direction == "D" and sql.lastLoggedTime() < args.timestamp):
-                #need to leave room
-                sql.addLogEntry(name, personType, direction, time, room)
+
+            elif((sql.getCurrentRoomForPerson(name, personType) == int(args.roomid)) and direction == "D" and (sql.lastLoggedTime() < args.timestamp)):
+                #need to leave room first
+                sql.addLogEntry(name, personType, direction, args.timestamp, args.roomid)
             else:
                 #invalid
                 print("invalid")
