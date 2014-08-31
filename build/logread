@@ -3,6 +3,7 @@
 # rainy_day_hackers
 # Aug 30, 2014
 
+import string
 import sys
 import os.path
 import argparse
@@ -51,15 +52,6 @@ def invalid():
     print("invalid")
     sys.exit(-1)
 
-
-# make a string containing comma separated list
-def makeString(aList):
-    stringFoo=''
-    comma=','
-    for item in aList:
-        stringFoo+=item+comma
-        stringFoo=stringFoo.rstrip(comma)
-    return stringFoo
 
 # [-H] -S html header stuff
 def SHtmlStart():
@@ -171,21 +163,21 @@ if args.state:
 
     if args.html:
         SHtmlStart()
-        print("<td>{0}</td>".format(makeString(listEmployees)))
-        print("<td>{0}</td>".format(makeString(listGuests)))
+        print("<td>{0}</td>".format(string.join(listEmployees,',')))
+        print("<td>{0}</td>".format(string.join(listGuests,',')))
         SHtmlMid()
         for room,personList in sorted(roomDict.items()):
             print("<tr>")
             print("  <td>{0}</td>".format(room))
-            print("  <td>{0}</td>".format(makeString(personList)))
+            print("  <td>{0}</td>".format(string.join(personList,',')))
             print("</tr>")
         SHtmlEnd()
     else:
         # normal out put
-        print(makeString(listEmployees))
-        print(makeString(listGuests))
+        print(string.join(listEmployees,','))
+        print(string.join(listGuests,','))
         for room,personList in sorted(roomDict.items()):
-            print("{0}: {1}".format(room,makeString(personList)))
+            print("{0}: {1}".format(room,string.join(personList,',')))
 
 
 # always gracefully close the DB after it is open!
