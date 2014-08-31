@@ -36,58 +36,83 @@ parser.add_argument('-R', dest='roomlist', action='store_const', default=False, 
 
 args = parser.parse_args()
 
-# check if arguments are valid
 
 # TODO: add all the optional arguments (commented out until implemented?)
 
-# TODO: handle error cases, -R and -S, -R without -E or -G (or both!) ... see the spec!
 
-
+# specifcation for how to fail
 def invalid()
     print("invalid")
     sys.exit(-1)
 
-# first sanitize text
-if args.employeename:
-    #sanitize
-    if(sn.sanitize_alpha(args.employeename) == False):
-        invalid()
-
-if args.token:
-    if(sn.sanitize_alphanumeric(args.token) == False):
-        invalid()
-
-if args.guestname:
-   if(sn.sanitize_alpha(args.guestname) == False):
-        invalid()
-
-if args.log:
-    if(sn.sanitize_alphanumeric(args.log) == False):
-        invalid()
-
-# additional flag requirements
-
-if (args.state and args.roomlist)
-    # can't have both
+# validate args
+# right amount of args and in right combination?
+if (args.state and args.roomlist) or not (arg.state or arg.roomlist):
+    # can't have both but must have one
     invalid()
 
-if (args.state and (args.employeename or args.guestname))
+if (args.state and (args.employeename or args.guestname)):
     # names not valid for state
     invalid()
 
-if (args.roomlist and not (args.guestname or args.employeename))
+if (args.roomlist and not (args.guestname or args.employeename)):
     # roomlist requires name(s)
     invalid()
 
-# print args
 
+# sanitized text?
+if args.token:
+    if not (type(args.token) == type('string')):
+        # only one token
+        invalid()
+    if(sn.sanitize_alphanumeric(args.token) == False):
+        invalid()
+else:
+    # token is required
+    invalid()
+
+if args.log:
+    if not (type(args.employeename) == type('string')):
+        # only one log
+        invalid()
+    if(sn.sanitize_alphanumeric(args.log) == False):
+        invalid()
+    if not 
+else:
+    # need a log always
+    invalid()
+
+if args.employeename:
+    if(sn.sanitize_alpha(args.employeename) == False):
+        invalid()
+    # ensure only one arg with -E
+    if not (type(args.employeename) == type('string')):
+        invalid()
+
+if args.guestname:
+    if(sn.sanitize_alpha(args.guestname) == False):
+        invalid()
+    # ensure only one arg with -G
+    if not (type(args.guestname) == type('string')):
+        invalid()
+
+
+# args shouold now be valid
 # now we can open and verify the encrypted database
+
+
 sql = db.DB(args.log, args.token)
 if not sql.successful():
-    print ("invalid database or token")
+    sys.stderr.write("integrity violation")
     sys.exit(-1)
 
 ### TODO: the main program logic goes here
+
+
+
+
+
+
 
 # always gracefully close the DB after it is open!
 sql.closeDBFile()
