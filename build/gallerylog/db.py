@@ -58,6 +58,21 @@ class DB:
             ret = ret[0]
         return ret == "t"
 
+    # for logread -T
+
+    def getTotalTime(self, name, personType):
+        self.cursor.execute("SELECT time FROM log WHERE room IS NULL AND direction LIKE 'A' AND personType LIKE ? AND name LIKE ? ORDER BY time ASC;", (personType, name))
+        val = self.cursor.fetchone()
+        self.cursor.execute("SELECT time FROM log WHERE room IS NULL AND direction LIKE 'D' AND personType LIKE ? AND name LIKE ? ORDER BY time ASC;", (personType, name))
+        val2 = self.cursor.fetchone()
+        if val:
+            if val2:
+                return val2[0] - val[0]
+            else:
+                return self.lastLoggedTime() - val[0]
+        else:
+            return None
+
     # for logread -R
 
     def getRoomsForPerson(self, name, personType):
@@ -209,6 +224,10 @@ if __name__ == "__main__":
    s()
    print sql.isPersonNew("Jack", "E")
    print sql.isPersonNew("Ben", "E")
+   # Ben= 2, Ryan= 100
+   print sql.getTotalTime("Ben", "E")
+   print sql.getTotalTime("Ryan", "E")
+   print sql.getTotalTime("Jack", "E")
 
    # always gracefully close the DB after it is open!
    sql.closeDBFile()
