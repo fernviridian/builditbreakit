@@ -44,7 +44,7 @@ parser.add_argument('-B', dest='batchfile', action='store', default=None,
 
 #TODO need to handle random flags like -Z
 
-args = parser.parse_args()
+args, unknown = parser.parse_known_args()
 
 #check if arguments are valid
 
@@ -116,8 +116,8 @@ def fileHandler(filename):
             #take newline out of line, then split the lin
             batchFileLine = line.rstrip('\n')
             batchFileLine = batchFileLine.split(" ") #split on spaces from argument list
-            batchFileArgs = parser.parse_args(batchFileLine)
-            if((areArgumentsValid(batchFileArgs) == True) and not batchFileArgs.batchfile):
+            batchFileArgs, unknown = parser.parse_known_args(batchFileLine)
+            if((areArgumentsValid(batchFileArgs) == True) and not batchFileArgs.batchfile and len(unknown) == 0):
                 #arguments are valid
                 if(not handler(batchFileArgs)): #run the handler
                     print("invalid")
@@ -236,7 +236,7 @@ def handler(args):
         return False
         
 def main(args):
-    if (areArgumentsValid(args) == True):
+    if (areArgumentsValid(args) == True and len(unknown) == 0):
         #either in batch file mode or normal mode
         #now we know the arguments are valid, start passing them to db backend
         if((handler(args) == False)):
