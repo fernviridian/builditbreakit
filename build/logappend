@@ -11,15 +11,15 @@ import sys
 # TODO: we should customize help output better
 parser = argparse.ArgumentParser(description='Appends data to the log at the specified timestamp using the authentication token. If the log does not exist, logappend will create it. Otherwise it will append to the existing log. If the data to be appended to the log is not consistent with the current state of the log, logappend should print "invalid" and leave the state of the log unchanged.')
 
-parser.add_argument('log', metavar='log',
+parser.add_argument('log', metavar='log', nargs='?',
                    help="The path to the file containing the event log. The log's filename may be specified with a string of alphanumeric characters. If the log does not exist, logappend should create it. logappend should add data to the log, preserving the history of the log such that queries from logread can be answered. If the log file cannot be created due to an invalid path, or any other error, logappend should print \"invalid\" and return -1.")
 
 parser.add_argument('-T', dest='timestamp', action='store',
-                   default=None, required=True,
+                   default=None,
                    help="Time the event is recorded. This timestamp is formatted as the number of seconds since the gallery opened and is a non-negative integer. Time should always increase, invoking logappend with an event at a time that is prior to the most recent event already recorded is an error.")
 
 parser.add_argument('-K', dest='token', action='store',
-                   default=None, required=True,
+                   default=None,
                    help="Token used to authenticate the log. This token consists of an arbitrary-sized string of alphanumeric (a-z, A-Z, and 0-9) characters. Once a log is created with a specific token, any subsequent appends to that log must use the same token.")
 
 parser.add_argument('-E', dest='employeename', action='store', default=None,
@@ -37,9 +37,9 @@ parser.add_argument('-L', dest='departure', action='store_const', default=False,
 parser.add_argument('-R', dest='roomid', action='store', default=None,
                    help="Specifies the room ID for an event. Room IDs are non-negative integer characters with no spaces. A gallery is composed of multiple rooms. A complete list of the rooms of the gallery is not available and rooms will only be described when an employee or guest enters or leaves one. A room cannot be left by an employee or guest unless that employee or guest has previously entered that room. An employee or guest may only occupy one room at a time. If a room ID is not specified, the event is for the entire art gallery.")
 
-parser.add_argument('-B', dest = 'batchfile', nargs='?', type=argparse.FileType('r'), default=sys.stdin)
-#parser.add_argument('-B', dest='batchfile', action='store', default=None, 
-#                   help="Specifies a batch file of commands. file contains one or more command lines, not including the logappend command itself (just its options), separated by \n (newlines). These commands should be processed by logappend individually, in order. This allows logappend to add data to the file without forking or re-invoking. Of course, option -B cannot itself appear in one of these command lines. Commands specified in a batch file include the log name. Here is an example (the last one).")
+#parser.add_argument('-B', dest = 'batchfile', nargs='?', type=argparse.FileType('r'), default=sys.stdin)
+parser.add_argument('-B', dest='batchfile', action='store', default=None, 
+                   help="Specifies a batch file of commands. file contains one or more command lines, not including the logappend command itself (just its options), separated by \n (newlines). These commands should be processed by logappend individually, in order. This allows logappend to add data to the file without forking or re-invoking. Of course, option -B cannot itself appear in one of these command lines. Commands specified in a batch file include the log name. Here is an example (the last one).")
 
 #TODO need to handle random flags like -Z
 
@@ -67,6 +67,7 @@ def areArgumentsValid(args):
         if(sn.sanitizeAlphanumeric(args.token) == False):
             returnValue = False
             return returnValue
+#TODO quit()
 
     if args.guestname:
        if(sn.sanitizeAlpha(args.guestname) == False):
@@ -79,12 +80,12 @@ def areArgumentsValid(args):
             return returnValue
 
 # additional flag requirements
-    if (args.guestname and args.employeename)
+    if (args.guestname and args.employeename):
         # can't have both
         returnValue = False
         return returnValue
 
-    if (args.departure and args.arrival)
+    if (args.departure and args.arrival):
         # can't have both
         returnValue = False
         return returnValue
@@ -102,43 +103,103 @@ def areArgumentsValid(args):
     return returnValue
 
 
-def handler():
-
+def handler(args):
     # now we can open and verify the encrypted database
     sql = db.DB(args.log, args.token)
     if not sql.successful():
         print ("invalid database or token")
-        sys.exit(-1)
 
     ### TODO: the main program logic goes here
 
-    if(args.arrival and args.departure):
-        #you cant have both
-        print ("invalid")
-        sys.exit(-1)
+#    if(args.arrival and args.departure):
+#        #you cant have both
+#        print ("invalid")
+#        sys.exit(-1)
+#
+#    if(args.guest and args.employee):
+#        #you cant have both
+#        print ("invalid")
+#        sys.exit(-1)
 
-    if(args.guest and args.employee):
-        #you cant have both
-        print ("invalid")
-        sys.exit(-1)
-
-    if(args.batchfile and not args.token and not args.timestamp and not (args.guest or args.employee) and not (args.arrival or args.departure) and not args.roomid):
+    if(args.batchfile and not (args.token or args.timestamp or args.guestname or args.employeename or args.arrival or args.departure or args.roomid or args.log)):
         #batchfile mode
         print ("batchfile mode")
 
-    if(args.token and args.timestamp and (args.guest or args.employee) and (args.arrival or args.departure) and args.roomid):
+    if(args.token and args.timestamp and (args.guestname or args.employeename) and (args.arrival or args.departure) and args.roomid and args.log):
         #valid query
+        #G - guest char
+        #E - employee char
+        personType = ""
+        #A - arrival char
+        #D - departure char
+        direction = ""
+        name = ""
+        if(args.guestname):
+            personType = "G"
+            name = args.guestname
+        if(args.employeename):
+            personType = "E"
+            name = args.employeename
+        if(args.arrival):
+            direction = "A"
+        if(args.departure):
+            direction = "D"
+            
         print ("query mode")
+        #also need to call inPersoninGallery and getCurrentRoomForPerson, then we can add the log entry
+        #there are 3 cases:
+        # case1: 
+        # EG
+        # [ LG | ER$ ]
+        #
+        # case2:
+        # EG
+        # ER13
+        # [ LR13 ]
+        # 
+        # Case3:
+        # EG
+        # ER13
+        # LR13
+        # [ ER$ | LG ]
 
+##########CASE 1############################################
 
+        if(isPersonInGallery(name, personType)): 
+            #the person is already in the gallery
+            if(getCurrentRoomForPerson(name, personType) == None):
+                #they are between rooms, or in gallery
+                #then they can only enter a room from here, or leave the gallery
+
+        else:
+            #they are not in the gallery, so they only can enter the gallery
+            if(args.arrival):
+                #valid
+                #need to check time for user against gallery time
+                if(LastLogTime < args.timestamp):
+                    #valid time stamp
+                    addLogEntry(name, personType, direction, time, room) #add the log entry
+                else:
+                    #not a valid time stamp
+                    print ("invalid")
+                    sys.exit(-1)
+
+            elif(args.departure):
+                #invalid, they cant leave if they arent already there
+                print("invalid")
+                sys.exit(-1)
+        
+##########CASE 2############################################
+        
+
+##########CASE 3############################################
+        
     # always gracefully close the DB after it is open!
-    sql.closeDBFile()
-
+ #   sql.closeDBFile()
 
 def main(args):
     #TODO check to see if we're in batch mode
     #if args.batchfile
-    print args.batchfile
     
     if (areArgumentsValid(args) == True):
         #now we know the arguments are valid, start passing them to db backend
