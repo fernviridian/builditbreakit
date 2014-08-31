@@ -197,7 +197,7 @@ def handler(args):
             if(sql.getCurrentRoomForPerson(name, personType) == None):
                 #they are between rooms, or in gallery
                 #then they can only enter a room from here, or leave the gallery
-                if((sql.lastLoggedTime() < args.timestamp) and direction):
+                if((sql.lastLoggedTime() < args.timestamp) and direction and not ((args.roomid == None) and direction == 'A')):
                     sql.addLogEntry(name, personType, direction, args.timestamp, args.roomid)
                 else:
                     #not a valid time stamp
@@ -217,7 +217,7 @@ def handler(args):
             if(args.arrival):
                 #valid
                 #need to check time for user against gallery time
-                if(sql.lastLoggedTime() < args.timestamp) and sql.isPersonNew(name, personType):
+                if((sql.lastLoggedTime() < args.timestamp) and sql.isPersonNew(name, personType) and args.roomid == None):
                     #valid time stamp
                     sql.addLogEntry(name, personType, direction, args.timestamp, args.roomid) #add the log entry
                 else:
