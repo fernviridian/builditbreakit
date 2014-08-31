@@ -12,7 +12,7 @@ import gallerylog.sanitize as sn
 # setting up parser ----------------
 parser = argparse.ArgumentParser(description='queries the state of the gallery. It prints which employees and guests are in the gallery or its rooms, and allows for various time-based queries of the state of the gallery.')
 
-parser.add_argument('log', metavar='log', # nargs='?',
+parser.add_argument('log', metavar='log',  nargs='*',
                    help="The path to the file log used for recording events. The filename may be specified with a string of alphanumeric characters.")
 
 parser.add_argument('-K', dest='token', action='store',
@@ -79,7 +79,7 @@ else:
     invalid()
 
 if args.log:
-    if not (type(args.employeename) == type('string')):
+    if not (type(args.log) == type('string')):
         # only one log
         invalid()
     if(sn.sanitizeAlphanumeric(args.log) == False):
