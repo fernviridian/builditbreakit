@@ -26,6 +26,8 @@ class DB:
     def successful(self):
         try:
             self.cursor.execute("SELECT * FROM testvalid;")
+            self.cursor.execute("SELECT * FROM log;")
+            self.cursor.execute("SELECT * FROM status;")
             return True
         except:
             return False
