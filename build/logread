@@ -38,7 +38,7 @@ parser.add_argument('-S', dest='state', action='store_const', default=False, con
 parser.add_argument('-R', dest='roomlist', action='store_const', default=False, const=True,
                    help="Give a list of all rooms entered by an employee or guest. Output the list of rooms in chronological order. If this argument is specified, either -E or -G must be specified. The list is printed to stdout in one comma-separated list of room identifiers. If -H is specified, the format should instead by in HTML conforming to the following HTML specification.")
 
-args = parser.parse_args()
+args, unknown = parser.parse_known_args()
 
 
 # TODO: add all the optional arguments (commented out until implemented?)
@@ -96,6 +96,9 @@ def RHtmlEnd():
 # -----------------------------------------------
 
 # validate args
+if(len(unknown) > 0):
+    invalid()
+
 # right amount of args and in right combination?
 if (args.state and args.roomlist) or not (args.state or args.roomlist):
     # can't have both but must have one
@@ -162,7 +165,7 @@ if args.guestname:
 
 sql = db.DB(args.log, args.token)
 if not sql.successful():
-    sys.stderr.write("integrity violation")
+    sys.stderr.write("integrity violation\n")
     sys.exit(-1)
 
 ### TODO: the main program logic goes here
