@@ -137,7 +137,7 @@ def handler(args):
     #else:
     sql = db.DB(args.log, args.token)
     if not sql.successful():
-        print ("invalid database or token")
+        print ("invalid database or token\n")
         sys.exit(-1)
 
     ### the main program logic goes here
