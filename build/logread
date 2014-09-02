@@ -90,11 +90,6 @@ def SHtmlMid():
     print("<th>Occupants</th>")
     print("</tr>")
 
-def SHtmlEnd():
-    print("</table>")
-    print("</body>")
-    print("</html>")
-
 # [-H] -R html header stuff
 def RHtmlStart():
     print("<html>")
@@ -104,7 +99,7 @@ def RHtmlStart():
     print("<th>Rooms</th>")
     print("</tr>")
 
-def RHtmlEnd():
+def HtmlEnd():
     print("</table>")
     print("</body>")
     print("</html>")
@@ -116,24 +111,6 @@ def AHtmlStart():
     print("<tr>")
     print("<th>Employees</th>")
     print("</tr>")
-
-def AHtmlEnd():
-    print("</table>")
-    print("</body>")
-    print("</html>")
-
-def IHtmlStart():
-    sys.stdout.write("<html>")
-    sys.stdout.write("<body>")
-    sys.stdout.write("<table>")
-    sys.stdout.write("<tr>")
-    sys.stdout.write("<th>Rooms</th>")
-    sys.stdout.write("</tr>")
-
-def IHtmlEnd():
-    sys.stdout.write("</table>")
-    sys.stdout.write("</body>")
-    sys.stdout.write("</html>")
 
 # -----------------------------------------------
 # Begin main
@@ -317,7 +294,7 @@ if args.state:
             print("<td>{0}</td>".format(room))
             print("<td>{0}</td>".format(string.join(personList,',')))
             print("</tr>")
-        SHtmlEnd()
+        HtmlEnd()
     else:
         # normal out put
         print(string.join(listEmployees,','))
@@ -341,7 +318,7 @@ if args.roomlist:
             print("<tr>")
             print("<td>{0}</td>".format(room))
             print("</tr>")
-        RHtmlEnd()
+        HtmlEnd()
     else:
         print(string.join(roomList,','))
 
@@ -365,7 +342,7 @@ if args.empsearch:
             print("<tr>")
             print("<td>{0}</td>".format(name))
             print("</tr>")
-        AHtmlEnd()
+        HtmlEnd()
     else:
         print(string.join(nameList,','))
 
@@ -377,10 +354,10 @@ if args.empsearchexclude:
     if args.html:
         AHtmlStart()
         for name in nameList:
-            sys.stdout.write("<tr>")
-            sys.stdout.write("<td>{0}</td>".format(name))
+            print("<tr>")
+            print("<td>{0}</td>".format(name))
             print("</tr>")
-        AHtmlEnd()
+        HtmlEnd()
     else:
         print(string.join(nameList,','))
 
@@ -392,12 +369,12 @@ if args.roomhistory:
         rooms=sql.getRoomLogByPerson(args.employeename[0],'E')
     rooms = list(set(map(lambda x: str(x[2]), rooms)))
     if args.html:
-        IHtmlStart()
+        RHtmlStart()
         for name in rooms:
-            sys.stdout.write("<tr>")
-            sys.stdout.write("<td>{0}</td>".format(name))
+            print("<tr>")
+            print("<td>{0}</td>".format(name))
             print("</tr>")
-        IHtmlEnd()
+        HtmlEnd()
     else:
         print(string.join(rooms,','))
 
