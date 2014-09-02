@@ -143,8 +143,8 @@ class DB:
 
     # for logread -I
 
-    def getLogByPerson(self, name, personType):
-        self.cursor.execute("SELECT time, direction, room FROM log WHERE personType LIKE ? AND name LIKE ? ORDER BY time ASC;", (personType, name))
+    def getRoomLogByPerson(self, name, personType):
+        self.cursor.execute("SELECT time, direction, room FROM log WHERE personType LIKE ? AND name LIKE ? AND room IS NOT NULL ORDER BY time ASC;", (personType, name))
         val = self.cursor.fetchall()
         return val
 

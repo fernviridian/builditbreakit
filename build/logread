@@ -44,11 +44,17 @@ parser.add_argument('-T', dest='totaltime', action='store_const', default=False,
 parser.add_argument('-A', dest='empsearch', action='store_const', default=False, const=True,
                    help="List employees present between times -L/-U.")
 
+parser.add_argument('-B', dest='empsearchexclude', action='store_const', default=False, const=True,
+                   help="List employees present between first time range -L/-U but not during the second given time range.")
+
 parser.add_argument('-L', dest='lowtime', action='store', default=None,
                    help="Lower time bound, integer: 0 or greater.")
 
 parser.add_argument('-U', dest='uppertime', action='store', default=None,
                    help="Upper time bound, integer: 0 or greater and greater than or equal to lower.")
+
+parser.add_argument('-I', dest='roomhistory', action='store_const', default=False, const=True,
+                   help="List any rooms occupied by all of the given people -G/-E at the same time.")
 
 
 args, unknown = parser.parse_known_args()
@@ -138,23 +144,31 @@ if(len(unknown) > 0):
 # right amount of args? cleaner version
 # if -S
 if (args.state):
-    if (args.roomlist or args.totaltime or args.empsearch or args.lowtime or args.uppertime or args.employeename or args.guestname):
+    if (args.roomlist or args.totaltime or args.empsearchexclude or args.empsearch or args.lowtime or args.uppertime or args.employeename or args.guestname or args.roomhistory):
         invalid()
 # if -R
 if (args.roomlist):
-    if (args.state or args.totaltime or args.empsearch or args.lowtime or args.uppertime):
+    if (args.state or args.totaltime or args.empsearchexclude or args.empsearch or args.lowtime or args.uppertime or args.roomhistory):
         invalid()
 # if -T
 if (args.totaltime):
-    if (args.state or args.roomlist or args.empsearch or args.lowtime or args.uppertime or args.html):
+    if (args.state or args.roomlist or args.empsearchexclude or args.empsearch or args.lowtime or args.uppertime or args.html or args.roomhistory):
         invalid()        # html not valid flag for totaltime
 # if -A
 if (args.empsearch):
-    if (args.state or args.roomlist or args.totaltime or args.guestname or args.employeename or not args.lowtime or not args.uppertime):
+    if (args.state or args.roomlist or args.empsearchexclude or args.totaltime or args.guestname or args.employeename or not args.lowtime or not args.uppertime or args.roomhistory):
+        invalid()
+# if -B
+if (args.empsearchexclude):
+    if (args.state or args.roomlist or args.empsearch or args.totaltime or args.guestname or args.employeename or not args.lowtime or not args.uppertime or args.roomhistory):
+        invalid()
+# if -I
+if (args.roomhistory):
+    if (args.state or args.roomlist or args.empsearch or args.totaltime or args.lowtime or args.uppertime or args.empsearchexclude or (not args.guestname and not args.employeename)):
         invalid()
 
 # must have at least one
-if not(args.state or args.roomlist or args.totaltime or args.empsearch):
+if not(args.state or args.roomlist or args.totaltime or args.empsearchexclude or args.empsearch or args.roomhistory):
     invalid()
 
 # may need to adjust this if we hit the optional #2
@@ -307,6 +321,17 @@ if args.empsearch:
         AHtmlEnd()
     else:
         print(string.join(nameList,','))
+
+# -B flag :: TODO
+
+# -I flag
+if args.roomhistory:
+    if args.guestname:
+        rooms=sql.getRoomLogByPerson(args.guestname,'G')
+    else:
+        rooms=sql.getRoomLogByPerson(args.employeename,'E')
+    rooms = list(set(map(lambda x: str(x[2]), rooms)))
+    print(string.join(rooms,','))
 
 
 # always gracefully close the DB after it is open!
