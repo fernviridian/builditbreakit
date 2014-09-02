@@ -104,9 +104,12 @@ def RHtmlEnd():
     print("</html>")
 
 def AHtmlStart():
-    print("<table>")
-    print("<body>")
     print("<html>")
+    print("<body>")
+    print("<table>")
+    print("<tr>")
+    print("<th>Employees</th>")
+    print("</tr>")
 
 def AHtmlEnd():
     print("</table>")
@@ -299,7 +302,7 @@ if args.empsearch:
         AHtmlStart()
         for name in nameList:
             print("<tr>")
-            print("<th>{0}</th>".format(name))
+            print("<td>{0}</td>".format(name))
             print("</tr>")
         AHtmlEnd()
     else:
