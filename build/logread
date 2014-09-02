@@ -47,10 +47,10 @@ parser.add_argument('-A', dest='empsearch', action='store_const', default=False,
 parser.add_argument('-B', dest='empsearchexclude', action='store_const', default=False, const=True,
                    help="List employees present between first time range -L/-U but not during the second given time range.")
 
-parser.add_argument('-L', dest='lowtime', action='store', default=None,
+parser.add_argument('-L', dest='lowtime', default=list(), action='append',
                    help="Lower time bound, integer: 0 or greater.")
 
-parser.add_argument('-U', dest='uppertime', action='store', default=None,
+parser.add_argument('-U', dest='uppertime', default=list(), action='append',
                    help="Upper time bound, integer: 0 or greater and greater than or equal to lower.")
 
 parser.add_argument('-I', dest='roomhistory', action='store_const', default=False, const=True,
@@ -144,27 +144,27 @@ if(len(unknown) > 0):
 # right amount of args? cleaner version
 # if -S
 if (args.state):
-    if (args.roomlist or args.totaltime or args.empsearchexclude or args.empsearch or args.lowtime or args.uppertime or args.employeename or args.guestname or args.roomhistory):
+    if (args.roomlist or args.totaltime or args.empsearchexclude or args.empsearch or len(args.lowtime) > 0 or len(args.uppertime) > 0 or args.employeename or args.guestname or args.roomhistory):
         invalid()
 # if -R
 if (args.roomlist):
-    if (args.state or args.totaltime or args.empsearchexclude or args.empsearch or args.lowtime or args.uppertime or args.roomhistory):
+    if (args.state or args.totaltime or args.empsearchexclude or args.empsearch or len(args.lowtime) > 0 or len(args.uppertime) > 0 or args.roomhistory):
         invalid()
 # if -T
 if (args.totaltime):
-    if (args.state or args.roomlist or args.empsearchexclude or args.empsearch or args.lowtime or args.uppertime or args.html or args.roomhistory):
+    if (args.state or args.roomlist or args.empsearchexclude or args.empsearch or len(args.lowtime) > 0 or len(args.uppertime) > 0 or args.html or args.roomhistory):
         invalid()        # html not valid flag for totaltime
 # if -A
 if (args.empsearch):
-    if (args.state or args.roomlist or args.empsearchexclude or args.totaltime or args.guestname or args.employeename or not args.lowtime or not args.uppertime or args.roomhistory):
+    if (args.state or args.roomlist or args.empsearchexclude or args.totaltime or args.guestname or args.employeename or not args.lowtime or not args.uppertime or args.roomhistory or len(args.lowtime) != 1 or len(args.uppertime) != 1):
         invalid()
 # if -B
 if (args.empsearchexclude):
-    if (args.state or args.roomlist or args.empsearch or args.totaltime or args.guestname or args.employeename or not args.lowtime or not args.uppertime or args.roomhistory):
+    if (args.state or args.roomlist or args.empsearch or args.totaltime or args.guestname or args.employeename or not args.lowtime or not args.uppertime or args.roomhistory or len(args.lowtime) != 2 or len(args.uppertime) != 2):
         invalid()
 # if -I
 if (args.roomhistory):
-    if (args.state or args.roomlist or args.empsearch or args.totaltime or args.lowtime or args.uppertime or args.empsearchexclude or (not args.guestname and not args.employeename)):
+    if (args.state or args.roomlist or args.empsearch or args.totaltime or len(args.lowtime) > 0 or len(args.uppertime) > 0 or args.empsearchexclude or (not args.guestname and not args.employeename)):
         invalid()
 
 # must have at least one
@@ -179,8 +179,6 @@ if (args.guestname and args.employeename):
 if ((args.roomlist or args.totaltime) and not (args.guestname or args.employeename)):
     # roomlist/total time requires name
     invalid()
-
-
 
 # sanitized text?
 if args.token:
@@ -222,25 +220,41 @@ if args.guestname:
     if(sn.sanitizeAlpha(args.guestname) == False):
         invalid()
 
-if args.lowtime:
-    if(sn.sanitizeNumber(args.lowtime) == False):
+def verifyLowtime(lowtime):
+    if(sn.sanitizeNumber(lowtime) == False):
         invalid()
-    if(int(args.lowtime < 0 )):
+    if(int(lowtime < 0 )):
         invalid()
-    args.lowtime = int(args.lowtime)
+    lowtime = int(lowtime)
     # limit numbers to 32 bit intergers...
-    if(args.lowtime > 4294967295):
+    if(lowtime > 4294967295):
         invalid()
+    return lowtime
 
-if args.uppertime:
-    if(sn.sanitizeNumber(args.uppertime) == False):
+def verifyUppertime(lowtime, uppertime):
+    if(sn.sanitizeNumber(uppertime) == False):
         invalid()
-    if(int(args.uppertime < args.lowtime)):
+    if(int(uppertime < lowtime)):
         invalid()
-    args.uppertime = int(args.uppertime)
+    uppertime = int(uppertime)
     # limit numbers to 32 bit intergers...
-    if(args.uppertime > 4294967295):
+    if(uppertime > 4294967295):
         invalid()
+    return uppertime
+
+if(len(args.lowtime) > 0):
+    if(len(args.lowtime) > 1):
+        args.lowtime2 = verifyLowtime(args.lowtime[1])
+    args.lowtime = verifyLowtime(args.lowtime[0])
+else:
+    args.lowtime = None
+
+if(len(args.uppertime) > 0):
+    if(len(args.uppertime) > 1):
+        args.uppertime2 = verifyUppertime(args.lowtime2, args.uppertime[1])
+    args.uppertime = verifyUppertime(args.lowtime, args.uppertime[0])
+else:
+    args.uppertime = None
 
 # args shouold now be valid
 # now we can open and verify the encrypted database
@@ -322,7 +336,20 @@ if args.empsearch:
     else:
         print(string.join(nameList,','))
 
-# -B flag :: TODO
+# -B flag
+if args.empsearchexclude:
+    nameList=sql.getEmployeesDuringRange(args.lowtime,args.uppertime)
+    removeList=sql.getEmployeesDuringRange(args.lowtime2,args.uppertime2)
+    nameList=list(set(nameList).difference(set(removeList)))
+    if args.html:
+        AHtmlStart()
+        for name in nameList:
+            sys.stdout.write("<tr>")
+            sys.stdout.write("<td>{0}</td>".format(name))
+            print("</tr>")
+        AHtmlEnd()
+    else:
+        print(string.join(nameList,','))
 
 # -I flag
 if args.roomhistory:
