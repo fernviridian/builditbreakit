@@ -110,17 +110,17 @@ def RHtmlEnd():
     print("</html>")
 
 def AHtmlStart():
-    sys.stdout.write("<html>")
-    sys.stdout.write("<body>")
-    sys.stdout.write("<table>")
-    sys.stdout.write("<tr>")
-    sys.stdout.write("<th>Employees</th>")
-    sys.stdout.write("</tr>")
+    print("<html>")
+    print("<body>")
+    print("<table>")
+    print("<tr>")
+    print("<th>Employees</th>")
+    print("</tr>")
 
 def AHtmlEnd():
-    sys.stdout.write("</table>")
-    sys.stdout.write("</body>")
-    sys.stdout.write("</html>")
+    print("</table>")
+    print("</body>")
+    print("</html>")
 
 def IHtmlStart():
     sys.stdout.write("<html>")
@@ -362,8 +362,8 @@ if args.empsearch:
     if args.html:
         AHtmlStart()
         for name in nameList:
-            sys.stdout.write("<tr>")
-            sys.stdout.write("<td>{0}</td>".format(name))
+            print("<tr>")
+            print("<td>{0}</td>".format(name))
             print("</tr>")
         AHtmlEnd()
     else:
