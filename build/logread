@@ -364,7 +364,7 @@ if args.empsearchexclude:
 def overlapThem(one, two):
     matches = []
     for first in one:
-        for second in second:
+        for second in two:
             if second[0] < first[0]:
                 temp = first
                 second = first
