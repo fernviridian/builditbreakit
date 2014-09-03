@@ -361,6 +361,30 @@ if args.empsearchexclude:
     else:
         print(string.join(nameList,','))
 
+def overlapThem(one, two):
+    matches = []
+    for first in one:
+        for second in second:
+            if second[0] < first[0]:
+                temp = first
+                second = first
+                first = temp
+            if first[1] > second[0]:
+                matches.append((second[0], min(second[1], first[1])))
+    return matches
+
+def findOverlaps(myL):
+    while(len(myL) > 1):
+        first = myL.pop(0)
+        second = myL.pop(0)
+        ret = overlapThem(one, two)
+        if(len(ret) == 0):
+            return list()
+    # check if each room has a time everybody is in
+    if(len(myL) > 0):
+        myL = myL[0]
+    return myL
+
 # -I flag
 if args.roomhistory:
     lastT = sql.lastLoggedTime()
@@ -389,18 +413,25 @@ if args.roomhistory:
         roomlists.append(set(rooms))
     rooms = set.intersection(*roomlists)
     # now, rooms has been visited by everybody in phist
-    #print phashes
-    # TODO: check if each room has a time everybody is in
-    rooms = map(lambda x: str(x), rooms)
+    results = []
+    for room in rooms:
+        l = []
+        for h in phashes:
+            l.append(h[room])
+        if len(findOverlaps(l)) > 0:
+            results.append(room)
+    # sort list and return as string
+    results.sort()
+    results = map(lambda x: str(x), results)
     if args.html:
         RHtmlStart()
-        for name in rooms:
+        for name in results:
             print("<tr>")
             print("<td>{0}</td>".format(name))
             print("</tr>")
         HtmlEnd()
     else:
-        print(string.join(rooms,','))
+        print(string.join(results,','))
 
 # always gracefully close the DB after it is open!
 sql.closeDBFile()
