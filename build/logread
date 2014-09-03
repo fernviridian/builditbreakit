@@ -437,3 +437,4 @@ if args.roomhistory:
 
 # always gracefully close the DB after it is open!
 sql.closeDBFile()
+#foo
