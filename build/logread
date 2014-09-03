@@ -377,7 +377,7 @@ def findOverlaps(myL):
     while(len(myL) > 1):
         first = myL.pop(0)
         second = myL.pop(0)
-        ret = overlapThem(one, two)
+        ret = overlapThem(first, second)
         if(len(ret) == 0):
             return list()
     # check if each room has a time everybody is in
