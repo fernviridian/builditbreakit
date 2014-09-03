@@ -363,6 +363,7 @@ if args.empsearchexclude:
 
 # -I flag
 if args.roomhistory:
+    lastT = sql.lastLoggedTime()
     phist = []
     for guest in args.guestname:
         phist.append(sql.getRoomLogByPerson(guest,'G'))
@@ -375,8 +376,7 @@ if args.roomhistory:
         rooms = []
         h = dict()
         if (len(person) % 2) == 1:
-            # TODO: replace end with max
-            person.append(person[-1])
+            person.append((lastT, person[-1][1], person[-1][2]))
         for r1, r2 in zip(person[0::2], person[1::2]):
             r = r1[2]
             rooms.append(r)
