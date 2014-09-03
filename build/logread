@@ -380,6 +380,8 @@ def findOverlaps(myL):
         ret = overlapThem(first, second)
         if(len(ret) == 0):
             return list()
+        else:
+            myL.insert(0, ret)
     # check if each room has a time everybody is in
     if(len(myL) > 0):
         myL = myL[0]
