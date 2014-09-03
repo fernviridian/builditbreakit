@@ -370,12 +370,28 @@ if args.roomhistory:
         phist.append(sql.getRoomLogByPerson(emp,'E'))
     # phist -- array of arrays of (time, dir, room)
     roomlists = []
+    phashes = []
     for person in phist:
-        rooms = list(set(map(lambda x: str(x[2]), person)))
+        rooms = []
+        h = dict()
+        if (len(person) % 2) == 1:
+            # TODO: replace end with max
+            person.append(person[-1])
+        for r1, r2 in zip(person[0::2], person[1::2]):
+            r = r1[2]
+            rooms.append(r)
+            startTime = r1[0]
+            endTime = r2[0]
+            if r not in h.keys():
+                h[r] = []
+            h[r].append([startTime, endTime])
+        phashes.append(h)
         roomlists.append(set(rooms))
     rooms = set.intersection(*roomlists)
     # now, rooms has been visited by everybody in phist
+    #print phashes
     # TODO: check if each room has a time everybody is in
+    rooms = map(lambda x: str(x), rooms)
     if args.html:
         RHtmlStart()
         for name in rooms:
