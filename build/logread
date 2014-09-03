@@ -369,7 +369,7 @@ def overlapThem(one, two):
                 temp = first
                 second = first
                 first = temp
-            if first[1] > second[0]:
+            if first[1] >= second[0]:
                 matches.append((second[0], min(second[1], first[1])))
     return matches
 
