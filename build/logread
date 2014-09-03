@@ -363,11 +363,19 @@ if args.empsearchexclude:
 
 # -I flag
 if args.roomhistory:
-    if args.guestname:
-        rooms=sql.getRoomLogByPerson(args.guestname[0],'G')
-    else:
-        rooms=sql.getRoomLogByPerson(args.employeename[0],'E')
-    rooms = list(set(map(lambda x: str(x[2]), rooms)))
+    phist = []
+    for guest in args.guestname:
+        phist.append(sql.getRoomLogByPerson(guest,'G'))
+    for emp in args.employeename:
+        phist.append(sql.getRoomLogByPerson(emp,'E'))
+    # phist -- array of arrays of (time, dir, room)
+    roomlists = []
+    for person in phist:
+        rooms = list(set(map(lambda x: str(x[2]), person)))
+        roomlists.append(set(rooms))
+    rooms = set.intersection(*roomlists)
+    # now, rooms has been visited by everybody in phist
+    # TODO: check if each room has a time everybody is in
     if args.html:
         RHtmlStart()
         for name in rooms:
