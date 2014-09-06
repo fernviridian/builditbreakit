@@ -48,7 +48,8 @@ def sanitizeNumber(incoming):
 def sanitizeAlpha(incoming):
     capA=ord('A')
     capZ=ord('Z')
-    for item in incoming.upper():
+    incoming=incoming.upper()
+    for item in incoming:
         val=ord(item)
         if val > capZ or val < capA:
             return False
@@ -80,7 +81,8 @@ def sanitizeAlphanumeric(incoming):
     nine=ord('9')
     capA=ord('A')
     capZ=ord('Z')
-    for item in incoming.upper():
+    incoming=incoming.upper()
+    for item in incoming:
         val=ord(item)
         if not((val <= capZ and val >= capA) or (val <= nine and val >= 0)):
             return False
