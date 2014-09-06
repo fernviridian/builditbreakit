@@ -6,10 +6,6 @@ import unicodedata
 import string
 # import re
 
-zero=ord('0')
-nine=ord('9')
-capA=ord('A')
-capZ=ord('Z')
 
 # incoming is the argument from parser like an employee name
 # or a room-id
@@ -22,14 +18,20 @@ def sanitizeNumber(incoming):
 #        return False #return false if we find anything that isnt alphanumeric
 #    else:
 #        return True #if it is a valid string, return True
-    flag = True
-    for item in incoming:
-        val=ord(item)
-        if val > nine or val < zero:
-            flag = False
-            return flag
-    return flag
 
+    zero=ord('0')
+    nine=ord('9')
+    newlist=sorted(list(map(ord, incoming)))
+    if (newlist[0] < zero or newlist[-1] > nine):
+        return False
+    return True
+
+
+#    for item in incoming:
+#        val=ord(item)
+#        if val > nine or val < zero:
+#            return False
+#    return True
 
 
 
@@ -43,14 +45,26 @@ def sanitizeAlpha(incoming):
 #        return False #return false if we find anything that isnt alphanumeric
 #    else:
 #        return True #if it is a valid string, return True
-    flag = True
-    incoming=incoming.upper()
-    for item in incoming:
-        val=ord(item)
-        if val > capZ or val < capA:
-            flag = False
-            return flag
-    return flag
+    capA=ord('A')
+    capZ=ord('Z')
+    newlist=sorted(list(map(ord, incoming.upper())))
+    if (newlist[0] < capA or newlist[-1] > capZ):
+        return False
+    return True
+
+#    incoming=incoming.upper()
+#    for item in incoming:
+#        val=ord(item)
+#        if val > capZ or val < capA:
+#            return False
+#    return True
+
+
+
+
+
+
+
 # ---------------------------------
 # returns false if any portion of the incoming string is not
 # either an ASCII letter or 0-9
@@ -60,14 +74,22 @@ def sanitizeAlphanumeric(incoming):
 #        return False #return false if we find anything that isnt alphanumeric
 #    else:
 #        return True #if it is a valid string, return True
-    flag = True
-    incoming=incoming.upper()
-    for item in incoming:
-        val=ord(item)
-        if val > capZ or val < capA:
-            flag = False
-            return flag
-    return flag
+    zero=ord('0')
+    nine=ord('9')
+    capA=ord('A')
+    capZ=ord('Z')
+    incoming=list(map(ord, incoming.upper()))
+    for val in incoming:        # no shortcut here since there could be value between 9 and A like @
+        if not((val <= capZ and val >= capA) or (val <= nine and val >= 0)):
+            return False
+    return True
+
+#    incoming=incoming.upper()
+#    for item in incoming:
+#        val=ord(item)
+#        if not((val <= capZ and val >= capA) or (val <= nine and val >= 0)):
+#            return False
+#    return True
 
 if __name__=='__main__':
     alphalist='qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'    # string containing only ascii letters
