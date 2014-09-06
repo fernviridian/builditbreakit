@@ -44,7 +44,7 @@ def sanitizeAlpha(incoming):
 #    else:
 #        return True #if it is a valid string, return True
     flag = True
-    incoming=incoming.upper
+    incoming=incoming.upper()
     for item in incoming:
         val=ord(item)
         if val > capZ or val < capA:
@@ -61,7 +61,7 @@ def sanitizeAlphanumeric(incoming):
 #    else:
 #        return True #if it is a valid string, return True
     flag = True
-    incoming=incoming.upper
+    incoming=incoming.upper()
     for item in incoming:
         val=ord(item)
         if val > capZ or val < capA:
