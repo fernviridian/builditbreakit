@@ -52,7 +52,26 @@ args, unknown = parser.parse_known_args()
 
 def areArgumentsValid(args):
     returnValue = True
-    #check if arguments are valid
+
+# preliminary flag requirements
+    if (args.guestname and args.employeename):
+        # can't have both
+        returnValue = False
+        return returnValue
+
+    if (args.departure and args.arrival):
+        # can't have both
+        returnValue = False
+        return returnValue
+    if(not args.batchfile):
+        if (not len(args.log) == 1):
+            # only one log
+            returnValue = False
+            return returnValue
+        else:
+            args.log = args.log[0]
+
+#check if arguments are valid
     if args.employeename:
         #sanitize
         if(sn.sanitizeAlpha(args.employeename) == False):
@@ -78,24 +97,6 @@ def areArgumentsValid(args):
         if(sn.sanitizeNumber(args.roomid) == False):
             returnValue = False
             return returnValue
-
-# additional flag requirements
-    if (args.guestname and args.employeename):
-        # can't have both
-        returnValue = False
-        return returnValue
-
-    if (args.departure and args.arrival):
-        # can't have both
-        returnValue = False
-        return returnValue
-    if(not args.batchfile):
-        if (not len(args.log) == 1):
-            # only one log
-            returnValue = False
-            return returnValue
-        else:
-            args.log = args.log[0]
 
     if args.log:
         if(sn.sanitizeAlphanumeric(args.log) == False):
