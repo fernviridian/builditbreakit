@@ -1,0 +1,8 @@
+<test team="78" type="integrity" logfile="HGBMPTWN">
+    <commands>
+        <command> 
+            <program>logread</program>
+                <args>-K l2x9fcH6vexaugrkNStw -S HGBMPTWN</args> 
+        </command>
+    </commands>
+</test>
