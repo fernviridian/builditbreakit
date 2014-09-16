@@ -1,0 +1,12 @@
+<test team="19" type="correctness">
+  <commands>
+    <command> 
+      <program>logappend</program>
+      <args>-K token -T 1 -G guest -A logfile</args>
+    </command>
+    <command> 
+      <program>logappend</program>
+      <args>-T 1 -K token -G guest -A logfile</args>
+    </command>
+  </commands>
+</test>
