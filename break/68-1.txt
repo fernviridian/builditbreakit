@@ -1,0 +1,4 @@
+ubuntu@ubuntu:~/68/code/build$ ./logappend -T 91 -K token -G gD -L -R 2 log1
+invalid
+Segmentation fault (core dumped)
+
