@@ -6,7 +6,7 @@
     </command>
     <command>
       <program>logappend</program>
-      <args>-T 5 -K token -E pA -A -R 1 log1 </args>
+      <args>-T 5 -K token -E pA -A -R 1 log1</args>
     </command>
     <command>
       <program>logappend</program>
