@@ -1,0 +1,2 @@
+// Can't leave and re-enter gallery - guest test
+

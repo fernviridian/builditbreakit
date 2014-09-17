@@ -1,0 +1,1 @@
+tried to enter a room with the name "foo" and is not a number but doesnt fail

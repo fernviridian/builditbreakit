@@ -1,0 +1,2 @@
+// Can't leave room without being in it (in gallery only) - employee
+
