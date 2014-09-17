@@ -2,11 +2,11 @@
   <commands>
     <command>
       <program>logappend</program>
-        <args>-T 5 -K token -E pppp -A log1</args>
+        <args>-K token -T 5 -E pppp -A log1</args>
     </command>
     <command>
       <program>logappend</program>
-        <args>-T 5 -K token -E pD -A log1</args>
+        <args>-K token -T 5-E pD -A log1</args>
     </command>
   </commands>
 </test>
