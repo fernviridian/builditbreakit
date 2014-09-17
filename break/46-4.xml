@@ -56,5 +56,9 @@
       <program>logappend</program>
         <args>-K token -T 15 -G guestD -A -R 0 log1</args>
     </command>
+    <command>
+      <program>logread</program>
+        <args>-K token -S log1</args>
+    </command>
   </commands>
 </test>

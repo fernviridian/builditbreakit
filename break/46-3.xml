@@ -8,5 +8,9 @@
       <program>logappend</program>
         <args>-T 5 -K token -G pE -A log1</args>
     </command>
+    <command>
+      <program>logread</program>
+        <args>-K token -S log1</args>
+    </command>
   </commands>
 </test>
