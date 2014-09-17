@@ -1,0 +1,1 @@
+shoudl print invalid, instead fails whwen it cant open the file because they dont check if it exists on disk first
