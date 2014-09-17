@@ -1,0 +1,24 @@
+<test team="67" type="correctness">
+  <commands>
+    <command>
+      <program>logappend</program>
+      <args>-T 341 -K token -E eS -A log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+      <args>-T 342 -K token -E eS -A -R 1 log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+      <args>-T 343 -K token -E eS -L -R 1 log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+      <args>-T 344 -K token -E eS -L log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+      <args>-T 345 -K token -E eS -L -R 1 log1</args>
+    </command>
+  </commands>
+</test>
