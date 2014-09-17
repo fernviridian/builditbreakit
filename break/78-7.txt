@@ -1,0 +1,1 @@
+// Can't enter same room that you are already in  - guest
