@@ -1,0 +1,12 @@
+<test team="67" type="correctness">
+  <commands>
+    <command>
+      <program>logappend</program>
+      <args>-T 5 -K token -E pppp -A log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+      <args>-T 5 -K token -E pD -A log1</args>
+    </command>
+  </commands>
+</test>

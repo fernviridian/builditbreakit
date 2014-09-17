@@ -1,0 +1,16 @@
+<test team="67" type="correctness">
+  <commands>
+    <command>
+      <program>logappend</program>
+      <args>-T 121 -K token -E eF -A log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+      <args>-T 122 -K token -E eF -A -R 1 log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+      <args>-T 123 -K token -E eF -L -R 2 log1</args>
+    </command>
+  </commands>
+</test>
