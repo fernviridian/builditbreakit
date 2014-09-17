@@ -8,6 +8,10 @@
       <program>logappend</program>
       <args>-K token -T 242 -E eM -A log1</args>
     </command>
+    <command>
+      <program>logread</program>
+      <args>-K token -S log1</args>
+    </command>
   </commands>
 </test>
 
