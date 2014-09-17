@@ -1,0 +1,1 @@
+// Can't leave gallery if you are in a room. - employee
