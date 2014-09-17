@@ -1,0 +1,2 @@
+cant handle unicode, prints help, should print "invalid"
+

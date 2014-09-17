@@ -1,0 +1,3 @@
+prints
+logappend: error: argument -T: invalid int value: 'foo'
+should print invalid

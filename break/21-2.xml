@@ -1,0 +1,9 @@
+<test team="21" type="correctness">
+  <commands>
+    <command> 
+      <program>logappend</program>
+      <args>-K token -T foo -E alphatimestampe -A log1</args>
+    </command>
+    <command> 
+  </commands>
+</test>
