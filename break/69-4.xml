@@ -1,0 +1,16 @@
+<test team="69" type="correctness">
+  <commands>
+    <command> 
+      <program>logappend</program>
+        <args>-T 1 -K token -G guest -A log1</args>
+    </command>
+     <command> 
+      <program>logappend</program>
+        <args>-K token -T ፲ -E ethiopian -A log1</args>
+    </command>
+    <command>
+      <program>logread</program>
+        <args>-K token -S log1</args>
+    </command>
+  </commands>
+</test>

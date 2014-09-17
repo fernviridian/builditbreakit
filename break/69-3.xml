@@ -4,4 +4,5 @@
       <program>logappend</program>
         <args>-T 1 -G guest -R 1 -A -K token logfile</args>
     </command>
+    </commands>
 </test>
