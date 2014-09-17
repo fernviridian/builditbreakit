@@ -1,0 +1,1 @@
+// namespace violation: employee and guest are allowed same name, should both appear.
