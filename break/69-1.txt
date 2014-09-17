@@ -1,0 +1,7 @@
+ubuntu@ubuntu:~/69/code/build$ ./logappend -T 91 -K token -G gD -L -R 2 log1Traceback (most recent call last):
+  File "./logappend", line 51, in <module>
+      if argv[1] != '-B': exit(append())
+            File "./logappend", line 39, in append
+                if not new_file and int(data.splitlines()[-1].split()[0]) >= int(timestamp):
+                    ValueError: invalid literal for int() with base 10: '\xe1\x8d\xb2'
+

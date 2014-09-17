@@ -1,0 +1,7 @@
+<test team="69" type="correctness">
+  <commands>
+    <command> 
+      <program>logappend</program>
+        <args>-T 91 -K token -G gD -L -R 2 log1</args>
+    </command>
+</test>

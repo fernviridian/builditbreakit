@@ -1,0 +1,16 @@
+<test team="19" type="correctness">
+  <commands>
+    <command> 
+      <program>logappend</program>
+        <args>-K token -T 181 -E eI -A log1</args>
+    </command>
+    <command> 
+      <program>logappend</program>
+        <args>-K token -T 182 -E eI -A -R 1 log1</args>
+    </command>
+    <command> 
+      <program>logappend</program>
+        <args>-K token -T 183 -E eI -L log1</args>
+    </command>
+  </commands>
+</test>

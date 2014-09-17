@@ -1,0 +1,60 @@
+<test team="46" type="correctness">
+  <commands>
+    <command>
+      <program>logappend</program>
+        <args>-T 1 -K token -G guestA -A log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+        <args>-T 2 -K token -G guestB -A log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+        <args>-T 3 -K token -G guestC -A log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+        <args>-T 4 -K token -G guestD -A log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+        <args>-T 5 -K token -G guestE -A log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+        <args>-T 6 -K token -G guestF -A log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+        <args>-T 7 -K token -G guestG -A log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+        <args>-T 8 -K token -G guestH -A log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+        <args>-T 10 -K token -G guestJ -A log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+        <args>-T 11 -K token -G guestK -A log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+        <args>-T 12 -K token -G guestA -A -R 2 log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+        <args>-T 13 -K token -G guestB -A -R 02 log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+        <args>-T 14 -K token -G guestC -A -R 002 log1</args>
+    </command>
+    <command>
+      <program>logappend</program>
+        <args>-T 15 -K token -G guestD -A -R 0 log1</args>
+    </command>
+  </commands>
+</test>
