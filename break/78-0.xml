@@ -12,6 +12,10 @@
       <program>logappend</program>
       <args>-T 263 -K token -E eN -A log1</args>
     </command>
+    <command>
+      <program>log</program>
+      <args>-K token -S log1</args>
+    </command>
   </commands>
 </test>
 
