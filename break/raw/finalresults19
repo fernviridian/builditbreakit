@@ -1,0 +1,314 @@
+willfail10correctness violation at test 11 - // Can't enter room before entering gallery - employee
+
+correctness violation at test 12 - // Can't enter room before entering gallery - guest
+
+correctness violation at test 13 - // Can't leave gallery without being in gallery - employee
+
+correctness violation at test 14 - // Can't leave gallery without being in gallery - guest
+
+correctness violation at test 15 - // Can't leave room without being in gallery - employee
+
+correctness violation at test 19 - // Can namespace collide across employee/guest division - I think yes, but it deserves watching - also setup for time check
+
+ours:
+pA
+pA
+1: pA
+
+theirs:
+
+pA
+
+--end--correctness violation at test 20 - // Can't leave and re-enter gallery - employee test
+
+ours:
+
+
+
+theirs:
+eA
+
+
+--end--correctness violation at test 21 - // Can't leave and re-enter gallery - guest test
+
+ours:
+
+
+
+theirs:
+
+gA
+
+--end--willfail20correctness violation at test 17 - //
+
+ours:
+base
+guestI
+
+theirs:
+
+
+
+--end--correctness violation at test 18 - // names
+
+ours:
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaz
+
+
+theirs:
+
+
+
+--end--correctness violation at test 19 - // Can namespace collide across employee/guest division - I think yes, but it deserves watching - also setup for time check
+
+ours:
+pA
+pA
+1: pA
+
+theirs:
+
+
+
+--end--correctness violation at test 22 - // Can't leave room without being in it (in gallery only) - employee
+
+ours:
+eE
+
+
+theirs:
+
+
+
+--end--correctness violation at test 23 - // Can't leave room without being in it (in gallery only) - guest
+
+ours:
+
+gE
+
+theirs:
+
+
+
+--end--correctness violation at test 24 - // Can't leave room without being in it (in dif room) - employee
+
+ours:
+eF
+
+1: eF
+
+theirs:
+
+
+
+--end--correctness violation at test 25 - // Can't leave room without being in it (in dif room) - guest
+
+ours:
+
+gF
+1: gF
+
+theirs:
+
+
+
+--end--correctness violation at test 26 - // Can't enter a room when you are in dif one - employee
+
+ours:
+eG
+
+1: eG
+
+theirs:
+
+
+
+--end--correctness violation at test 27 - // Can't enter a room when you are in dif one - guest
+
+ours:
+
+gG
+1: gG
+
+theirs:
+
+
+
+--end--correctness violation at test 28 - // Can't enter room while in the same room - employee
+
+ours:
+eH
+
+1: eH
+
+theirs:
+
+
+
+--end--correctness violation at test 29 - // Can't enter room while in the same room - guest
+
+ours:
+
+gH
+1: gH
+
+theirs:
+
+
+
+--end--correctness violation at test 30 - // Can't leave gallery if you are in a room. - employee
+
+ours:
+eI
+
+1: eI
+
+theirs:
+
+
+
+--end--correctness violation at test 31 - // Can't leave gallery if you are in a room. - guest
+
+ours:
+
+gI
+1: gI
+
+theirs:
+
+
+
+--end--correctness violation at test 36 - // Can't arrive gallery twice(in gallery) - employee
+
+ours:
+eM
+
+
+theirs:
+
+
+
+--end--correctness violation at test 37 - // Can't arrive gallery twice(in gallery) - guest
+
+ours:
+
+gM
+
+theirs:
+
+
+
+--end--correctness violation at test 38 - // Can't arrive gallery twice(in room) - employee
+
+ours:
+eN
+
+1: eN
+
+theirs:
+
+
+
+--end--correctness violation at test 39 - // Can't arrive gallery twice(in room) - guest
+
+ours:
+
+gN
+
+theirs:
+
+
+
+--end--correctness violation at test 40 - // Room Number alphanumeric ('negative integer' should fail) - employee
+
+ours:
+eP
+
+
+theirs:
+
+
+
+--end--correctness violation at test 41 - // Room Number alphanumeric ('negative integer' should fail) - guest
+
+ours:
+
+gP
+
+theirs:
+
+
+
+--end--correctness violation at test 42 - // Can't leave room after left room- employee
+
+ours:
+eQ
+
+
+theirs:
+
+
+
+--end--correctness violation at test 43 - // Can't leave room after left room -guest
+
+ours:
+
+gQ
+
+theirs:
+
+
+
+--end--correctness violation at test 48 - // Can't have event prior to latest event - employee
+
+ours:
+pppp
+
+
+theirs:
+
+
+
+--end--correctness violation at test 49 - // Can't have event prior to latest event - guest
+
+ours:
+pppp
+
+
+theirs:
+
+
+
+--end--correctness violation at test 50 - // Can't have event as same time of latest event - employee
+
+ours:
+pppp
+
+
+theirs:
+
+
+
+--end--correctness violation at test 51 - // Can't have event as same time of latest event - guest
+
+ours:
+pppp
+
+
+theirs:
+
+
+
+--end--correctness violation at test 52 - // room number 0 v 00 and unicode and negative
+
+ours:
+
+guestA,guestB,guestC,guestD,guestE,guestF,guestG,guestH,guestJ,guestK
+0: guestD
+2: guestA,guestB,guestC
+
+theirs:
+
+
+
+--end--

@@ -1,0 +1,73 @@
+willfail10correctness violation at test 8 - // special char token
+
+correctness violation at test 9 - // Timestamp can't be negative
+
+correctness violation at test 10 - //  bad guestname
+
+correctness violation at test 11 - // Can't enter room before entering gallery - employee
+
+correctness violation at test 12 - // Can't enter room before entering gallery - guest
+
+correctness violation at test 13 - // Can't leave gallery without being in gallery - employee
+
+correctness violation at test 14 - // Can't leave gallery without being in gallery - guest
+
+correctness violation at test 15 - // Can't leave room without being in gallery - employee
+
+correctness violation at test 20 - // Can't leave and re-enter gallery - employee test
+
+ours:
+
+
+
+theirs:
+eA
+
+
+--end--correctness violation at test 21 - // Can't leave and re-enter gallery - guest test
+
+ours:
+
+
+
+theirs:
+
+gA
+
+--end--willfail20correctness violation at test 8 - // special char token
+
+correctness violation at test 9 - // Timestamp can't be negative
+
+correctness violation at test 10 - //  bad guestname
+
+correctness violation at test 11 - // Can't enter room before entering gallery - employee
+
+correctness violation at test 12 - // Can't enter room before entering gallery - guest
+
+correctness violation at test 13 - // Can't leave gallery without being in gallery - employee
+
+correctness violation at test 14 - // Can't leave gallery without being in gallery - guest
+
+correctness violation at test 15 - // Can't leave room without being in gallery - employee
+
+correctness violation at test 20 - // Can't leave and re-enter gallery - employee test
+
+ours:
+
+
+
+theirs:
+eA
+
+
+--end--correctness violation at test 21 - // Can't leave and re-enter gallery - guest test
+
+ours:
+
+
+
+theirs:
+
+gA
+
+--end--

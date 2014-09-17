@@ -1,0 +1,370 @@
+willfail10correctness violation at test 1 - // ethopian time
+
+correctness violation at test 2 - //  tamil time
+
+correctness violation at test 3 - // circle time
+
+correctness violation at test 4 - // circletime2
+
+correctness violation at test 5 - // big number time
+
+correctness violation at test 6 - // other circle time
+
+correctness violation at test 7 - // foo time
+
+correctness violation at test 11 - // Can't enter room before entering gallery - employee
+
+correctness violation at test 12 - // Can't enter room before entering gallery - guest
+
+correctness violation at test 15 - // Can't leave room without being in gallery - employee
+
+correctness violation at test 16 - // 8an't leave room without being in gallery - guest
+
+ours:
+
+
+
+theirs:
+gD
+2: gD
+
+--end--correctness violation at test 18 - // names
+
+ours:
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaz
+
+
+theirs:
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaz
+
+--end--correctness violation at test 19 - // Can namespace collide across employee/guest division - I think yes, but it deserves watching - also setup for time check
+
+ours:
+pA
+pA
+1: pA
+
+theirs:
+pA
+
+--end--correctness violation at test 20 - // Can't leave and re-enter gallery - employee test
+
+ours:
+
+
+
+theirs:
+eA
+
+--end--correctness violation at test 21 - // Can't leave and re-enter gallery - guest test
+
+ours:
+
+
+
+theirs:
+gA
+
+--end--correctness violation at test 22 - // Can't leave room without being in it (in gallery only) - employee
+
+ours:
+eE
+
+
+theirs:
+eE
+1: eE
+
+--end--correctness violation at test 23 - // Can't leave room without being in it (in gallery only) - guest
+
+ours:
+
+gE
+
+theirs:
+gE
+1: gE
+
+--end--correctness violation at test 24 - // Can't leave room without being in it (in dif room) - employee
+
+ours:
+eF
+
+1: eF
+
+theirs:
+eF
+2: eF
+
+--end--correctness violation at test 25 - // Can't leave room without being in it (in dif room) - guest
+
+ours:
+
+gF
+1: gF
+
+theirs:
+gF
+2: gF
+
+--end--correctness violation at test 26 - // Can't enter a room when you are in dif one - employee
+
+ours:
+eG
+
+1: eG
+
+theirs:
+eG
+2: eG
+
+--end--correctness violation at test 27 - // Can't enter a room when you are in dif one - guest
+
+ours:
+
+gG
+1: gG
+
+theirs:
+gG
+2: gG
+
+--end--correctness violation at test 28 - // Can't enter room while in the same room - employee
+
+ours:
+eH
+
+1: eH
+
+theirs:
+eH
+1: eH
+
+--end--correctness violation at test 29 - // Can't enter room while in the same room - guest
+
+ours:
+
+gH
+1: gH
+
+theirs:
+gH
+1: gH
+
+--end--correctness violation at test 30 - // Can't leave gallery if you are in a room. - employee
+
+ours:
+eI
+
+1: eI
+
+theirs:
+
+--end--correctness violation at test 31 - // Can't leave gallery if you are in a room. - guest
+
+ours:
+
+gI
+1: gI
+
+theirs:
+
+--end--correctness violation at test 32 - // Can't leave gallery twice (from gallery) - employee
+
+ours:
+
+
+
+theirs:
+
+--end--correctness violation at test 33 - // Can't leave gallery twice (from gallery) - guest
+
+ours:
+
+
+
+theirs:
+
+--end--correctness violation at test 34 - // Can't leave gallery twice (out of room) - employee
+
+ours:
+
+
+
+theirs:
+
+--end--correctness violation at test 35 - // Can't leave gallery twice (out of room) - guest
+
+ours:
+
+
+
+theirs:
+
+--end--correctness violation at test 36 - // Can't arrive gallery twice(in gallery) - employee
+
+ours:
+eM
+
+
+theirs:
+eM
+
+--end--correctness violation at test 37 - // Can't arrive gallery twice(in gallery) - guest
+
+ours:
+
+gM
+
+theirs:
+gM
+
+--end--correctness violation at test 38 - // Can't arrive gallery twice(in room) - employee
+
+ours:
+eN
+
+1: eN
+
+theirs:
+eN
+
+--end--correctness violation at test 39 - // Can't arrive gallery twice(in room) - guest
+
+ours:
+
+gN
+
+theirs:
+gN
+
+--end--correctness violation at test 40 - // Room Number alphanumeric ('negative integer' should fail) - employee
+
+ours:
+eP
+
+
+theirs:
+eP
+
+--end--correctness violation at test 41 - // Room Number alphanumeric ('negative integer' should fail) - guest
+
+ours:
+
+gP
+
+theirs:
+gP
+
+--end--correctness violation at test 42 - // Can't leave room after left room- employee
+
+ours:
+eQ
+
+
+theirs:
+eQ
+1: eQ
+
+--end--correctness violation at test 43 - // Can't leave room after left room -guest
+
+ours:
+
+gQ
+
+theirs:
+gQ
+1: gQ
+
+--end--correctness violation at test 44 - // Can't enter room after left gallery - employee
+
+ours:
+
+
+
+theirs:
+eR
+1: eR
+
+--end--correctness violation at test 45 - // Can't enter room after left gallery - guest
+
+ours:
+
+
+
+theirs:
+gR
+1: gR
+
+--end--correctness violation at test 46 - // Can't leave room after left gallery - employee
+
+ours:
+
+
+
+theirs:
+eS
+1: eS
+
+--end--correctness violation at test 47 - // Can't leave room after left gallery - guest
+
+ours:
+
+
+
+theirs:
+gS
+1: gS
+
+--end--correctness violation at test 48 - // Can't have event prior to latest event - employee
+
+ours:
+pppp
+
+
+theirs:
+pB,pppp
+
+--end--correctness violation at test 49 - // Can't have event prior to latest event - guest
+
+ours:
+pppp
+
+
+theirs:
+pppp
+pC
+
+--end--correctness violation at test 50 - // Can't have event as same time of latest event - employee
+
+ours:
+pppp
+
+
+theirs:
+pD,pppp
+
+--end--correctness violation at test 51 - // Can't have event as same time of latest event - guest
+
+ours:
+pppp
+
+
+theirs:
+pppp
+pE
+
+--end--correctness violation at test 52 - // room number 0 v 00 and unicode and negative
+
+ours:
+
+guestA,guestB,guestC,guestD,guestE,guestF,guestG,guestH,guestJ,guestK
+0: guestD
+2: guestA,guestB,guestC
+
+theirs:
+guestA,guestB,guestC,guestD,guestE,guestF,guestG,guestH,guestJ,guestK
+0: guestD
+2: guestA,guestB,guestC
+
+--end--willfail20
