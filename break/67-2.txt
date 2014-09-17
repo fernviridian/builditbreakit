@@ -1,0 +1,1 @@
+Can namespace collide across employee/guest division - I think yes, but it deserves watching - also setup for time check
