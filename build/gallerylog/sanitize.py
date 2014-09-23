@@ -84,7 +84,8 @@ def sanitizeAlphanumeric(incoming):
     incoming=incoming.upper()
     for item in incoming:
         val=ord(item)
-        if not((val <= capZ and val >= capA) or (val <= nine and val >= 0)):
+        # fix for SSRG_VT/35_invalid_path, woopwoop/team35badpath
+        if not((val <= capZ and val >= capA) or (val <= nine and val >= zero)):
             return False
     return True
 
