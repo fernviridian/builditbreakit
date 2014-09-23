@@ -139,7 +139,8 @@ if (args.state):
         invalid()
 # if -R
 if (args.roomlist):
-    if (args.state or args.totaltime or args.empsearchexclude or args.empsearch or len(args.lowtime) > 0 or len(args.uppertime) > 0 or args.roomhistory):
+    # fix for SSRG_VT/35_r_rpt
+    if (args.state or args.totaltime or args.empsearchexclude or args.empsearch or len(args.lowtime) > 0 or len(args.uppertime) > 0 or args.roomhistory or (len(args.employeename)+len(args.guestname)) != 1):
         invalid()
 # if -T
 if (args.totaltime):
