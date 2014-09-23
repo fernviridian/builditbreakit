@@ -100,6 +100,9 @@ def areArgumentsValid(args):
             return returnValue
 
     if args.log:
+        if args.batchfile:
+            returnValue = False
+            return returnValue
         if(sn.sanitizeAlphanumeric(args.log) == False):
             returnValue = False
             return returnValue
@@ -127,9 +130,9 @@ def fileHandler(filename):
         return True
 
     else:
-        #file doesnt exist
+        # fix for woopwoop/team35badbatch2
         print("invalid")
-        sys.exit(-1)
+        sys.exit(0)
 
 
 def handler(args):
