@@ -333,7 +333,11 @@ if args.totaltime:
     else:
         time=sql.getTotalTime(args.employeename,'E')
     if time:
-        print(time)
+        # fix for break/SSRG_VT/35_time.txt
+        if time == -1:
+            print "0"
+        else:
+            print(time)
 
 # -A flag
 if args.empsearch:

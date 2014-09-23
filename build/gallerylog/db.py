@@ -71,7 +71,11 @@ class DB:
             if val2:
                 return val2[0] - val[0]
             else:
-                return self.lastLoggedTime() - val[0]
+                result = self.lastLoggedTime() - val[0]
+                if result == 0:
+                    return -1
+                else:
+                    return result
         else:
             return None
 
