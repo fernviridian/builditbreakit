@@ -18,6 +18,8 @@ class DB:
         self.connection = dbapi2.connect(self.filename)
         self.cursor = self.connection.cursor()
         self.cursor.execute("PRAGMA KEY = '" + self.key + "';")
+        # Fix for woopwoop/team35casesensitive
+        self.cursor.execute("PRAGMA case_sensitive_like=ON;")
         if not fileExists:
             self.cursor.execute("CREATE TABLE testvalid(nothing);")
             self.cursor.execute("CREATE TABLE log(name NOT NULL, personType NOT NULL, direction NOT NULL, time INTEGER NOT NULL, room integer);")
