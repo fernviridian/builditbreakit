@@ -363,6 +363,11 @@ if args.empsearchexclude:
     else:
         print(string.join(nameList,','))
 
+# fix for 35_a_emptyset
+if args.empsearchexclude or args.empsearch:
+    if len(nameList) == 0:
+        exit(-1)
+
 def overlapThem(one, two):
     matches = []
     for first in one:
