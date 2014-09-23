@@ -246,9 +246,10 @@ def verifyLowtime(lowtime):
 def verifyUppertime(lowtime, uppertime):
     if(sn.sanitizeNumber(uppertime) == False):
         invalid()
-    if(int(uppertime < lowtime)):
-        invalid()
+    # fix for 35_a_wrongbounds
     uppertime = int(uppertime)
+    if(uppertime < lowtime):
+        invalid()
     # limit numbers to 32 bit intergers...
     if(uppertime > 4294967295):
         invalid()
