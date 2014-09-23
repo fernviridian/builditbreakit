@@ -200,7 +200,8 @@ def handler(args):
 
         if(sql.isPersonInGallery(name, personType)): 
             #the person is already in the gallery
-            if(sql.getCurrentRoomForPerson(name, personType) == None):
+            # disallow leaving a room before entering, fix for break/SSRG_VT/35_state2
+            if(sql.getCurrentRoomForPerson(name, personType) == None and direction == "A"):
                 #they are between rooms, or in gallery
                 #then they can only enter a room from here, or leave the gallery
                 if((sql.lastLoggedTime() < args.timestamp) and direction and not ((args.roomid == None) and direction == 'A')):
